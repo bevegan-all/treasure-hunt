@@ -1709,6 +1709,24 @@
       document.getElementById('quiz-badge-mode').textContent = (mode === 'quick') ? 'QUICK (10)' : 'FULL (50)';
 
       renderCurrentQuestion();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /**
+     * Offset-aware safe viewport scroller for mobile devices
+     * Ensures target element is never covered by the fixed bottom navbar or top header
+     */
+    function scrollIntoSafeView(element) {
+      if (!element) return;
+      const bottomNav = document.querySelector('nav.md\\:hidden');
+      const navHeight = (bottomNav && window.innerWidth < 768) ? bottomNav.offsetHeight : 0;
+      const rect = element.getBoundingClientRect();
+      const safeBottom = window.innerHeight - navHeight - 16; // 16px clearance buffer
+
+      if (rect.bottom > safeBottom) {
+        const scrollDistance = rect.bottom - safeBottom;
+        window.scrollBy({ top: scrollDistance, behavior: 'smooth' });
+      }
     }
 
     /**
@@ -1750,10 +1768,10 @@
 
       q.options.forEach((opt, idx) => {
         const btn = document.createElement('button');
-        btn.className = "w-full text-left py-2.5 px-3 sm:py-3 sm:px-4 rounded-xl sm:rounded-2xl border-2 transition-all flex items-center justify-between gap-2.5 text-xs sm:text-sm font-semibold cursor-pointer select-none active:scale-[0.99] min-h-[44px]";
+        btn.className = "w-full text-left py-2 px-3 sm:py-2.5 sm:px-4 rounded-xl sm:rounded-2xl border-2 transition-all flex items-center justify-between gap-2 text-xs sm:text-sm font-semibold cursor-pointer select-none active:scale-[0.99] min-h-[40px]";
 
         // Option prefix badge
-        const letterSpan = `<span class="inline-flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-md sm:rounded-lg text-[11px] sm:text-xs font-bold shrink-0 ${
+        const letterSpan = `<span class="inline-flex items-center justify-center w-5 h-5 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-bold shrink-0 ${
           hasAnswered ? 'bg-slate-200 text-slate-700' : 'bg-sky-100 text-sky-800'
         }">${letters[idx]}</span>`;
 
@@ -1761,11 +1779,11 @@
           // Default unselected state
           btn.classList.add('border-slate-200', 'bg-white', 'text-slate-800', 'hover:border-sky-400', 'hover:bg-sky-50/50');
           btn.innerHTML = `
-            <div class="flex items-center gap-2.5">
+            <div class="flex items-center gap-2 min-w-0 pr-1">
               ${letterSpan}
-              <span class="leading-tight">${opt}</span>
+              <span class="leading-tight truncate">${opt}</span>
             </div>
-            <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border border-slate-300 shrink-0"></div>
+            <div class="w-3.5 h-3.5 rounded-full border border-slate-300 shrink-0"></div>
           `;
           btn.onclick = () => selectOption(opt);
         } else {
@@ -1777,29 +1795,29 @@
             // Correct Answer Styling (Green)
             btn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-950');
             btn.innerHTML = `
-              <div class="flex items-center gap-2.5">
-                <span class="inline-flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-md sm:rounded-lg text-xs font-bold bg-emerald-600 text-white shrink-0">✓</span>
-                <span class="font-bold leading-tight">${opt}</span>
+              <div class="flex items-center gap-2 min-w-0 pr-1">
+                <span class="inline-flex items-center justify-center w-5 h-5 rounded-md sm:rounded-lg text-xs font-bold bg-emerald-600 text-white shrink-0">✓</span>
+                <span class="font-bold leading-tight truncate">${opt}</span>
               </div>
-              <span class="text-[11px] font-bold text-emerald-700 shrink-0">सही स्थान</span>
+              <span class="text-[10px] sm:text-[11px] font-bold text-emerald-700 shrink-0 whitespace-nowrap">सही स्थान</span>
             `;
           } else if (opt === previousSelection) {
             // User picked wrong option (Red)
             btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-950');
             btn.innerHTML = `
-              <div class="flex items-center gap-2.5">
-                <span class="inline-flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-md sm:rounded-lg text-xs font-bold bg-rose-600 text-white shrink-0">✕</span>
-                <span class="font-medium line-through text-rose-900 leading-tight">${opt}</span>
+              <div class="flex items-center gap-2 min-w-0 pr-1">
+                <span class="inline-flex items-center justify-center w-5 h-5 rounded-md sm:rounded-lg text-xs font-bold bg-rose-600 text-white shrink-0">✕</span>
+                <span class="font-medium line-through text-rose-900 leading-tight truncate">${opt}</span>
               </div>
-              <span class="text-[11px] font-bold text-rose-600 shrink-0">गलत विकल्प</span>
+              <span class="text-[10px] sm:text-[11px] font-bold text-rose-600 shrink-0 whitespace-nowrap">गलत विकल्प</span>
             `;
           } else {
             // Neutral unselected options
             btn.classList.add('border-slate-200', 'bg-slate-50', 'text-slate-400', 'opacity-60');
             btn.innerHTML = `
-              <div class="flex items-center gap-2.5">
+              <div class="flex items-center gap-2 min-w-0 pr-1">
                 ${letterSpan}
-                <span class="leading-tight">${opt}</span>
+                <span class="leading-tight truncate">${opt}</span>
               </div>
             `;
           }
@@ -1808,8 +1826,10 @@
         optionsContainer.appendChild(btn);
       });
 
-      // Explanation Box
+      // Explanation Box & Inline Button
       const explanationBox = document.getElementById('quiz-explanation-box');
+      const inlineNextBtn = document.getElementById('quiz-inline-next-btn');
+
       if (hasAnswered) {
         explanationBox.classList.remove('hidden');
         const isCorrect = previousSelection === q.correctAnswer;
@@ -1819,39 +1839,43 @@
         const explanationText = document.getElementById('quiz-explanation-text');
 
         if (isCorrect) {
-          explanationBox.className = "rounded-xl sm:rounded-2xl p-3 sm:p-4 transition-all bg-emerald-50 border border-emerald-200 text-emerald-950";
-          feedbackStatus.innerHTML = `<span class="text-emerald-600 text-base">✓</span> <span class="text-emerald-800">सही उत्तर</span>`;
-          correctLocation.className = "text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 shrink-0";
+          explanationBox.className = "rounded-xl sm:rounded-2xl p-3 sm:p-4 transition-all bg-emerald-50 border border-emerald-200 text-emerald-950 space-y-2.5";
+          feedbackStatus.innerHTML = `<span class="text-emerald-600 text-base font-bold">✓</span> <span class="text-emerald-800">सही उत्तर</span>`;
+          correctLocation.className = "text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 shrink-0";
         } else {
-          explanationBox.className = "rounded-xl sm:rounded-2xl p-3 sm:p-4 transition-all bg-rose-50 border border-rose-200 text-rose-950";
-          feedbackStatus.innerHTML = `<span class="text-rose-600 text-base">✕</span> <span class="text-rose-800">गलत उत्तर</span>`;
-          correctLocation.className = "text-[11px] font-bold px-2 py-0.5 rounded-full bg-white text-slate-800 border border-slate-200 shrink-0";
+          explanationBox.className = "rounded-xl sm:rounded-2xl p-3 sm:p-4 transition-all bg-rose-50 border border-rose-200 text-rose-950 space-y-2.5";
+          feedbackStatus.innerHTML = `<span class="text-rose-600 text-base font-bold">✕</span> <span class="text-rose-800">गलत उत्तर</span>`;
+          correctLocation.className = "text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full bg-white text-slate-800 border border-slate-200 shrink-0";
         }
 
         correctLocation.textContent = `स्थान: ${q.correctAnswer}`;
         explanationText.innerHTML = `<strong class="text-slate-900">क्यों?</strong> ${q.explanation}`;
 
-        // Auto-scroll on mobile to make feedback and Next button effortlessly reachable
+        // Inline button text update
+        if (currentQuestionIndex === total - 1) {
+          inlineNextBtn.innerHTML = `<span>परिणाम देखें (Results) 🏆</span>`;
+        } else {
+          inlineNextBtn.innerHTML = `<span>अगला प्रश्न (Next)</span> <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>`;
+        }
+
+        // Automatic safe scroll so the explanation and Next action are 100% visible above bottom nav
         setTimeout(() => {
-          const navFooter = document.getElementById('quiz-nav-footer');
-          if (navFooter) {
-            navFooter.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          }
-        }, 100);
+          scrollIntoSafeView(explanationBox);
+        }, 80);
       } else {
         explanationBox.classList.add('hidden');
       }
 
-      // Prev / Next button states
+      // Bottom Prev / Next button states
       const prevBtn = document.getElementById('quiz-prev-btn');
       const nextBtn = document.getElementById('quiz-next-btn');
 
       prevBtn.disabled = currentQuestionIndex === 0;
 
       if (currentQuestionIndex === total - 1) {
-        nextBtn.innerHTML = `<span>परिणाम देखें</span> <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>`;
+        nextBtn.innerHTML = `<span>परिणाम देखें</span> <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>`;
       } else {
-        nextBtn.innerHTML = `<span>अगला (Next)</span> <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>`;
+        nextBtn.innerHTML = `<span>अगला (Next)</span> <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>`;
       }
     }
 
@@ -1879,6 +1903,12 @@
       if (currentQuestionIndex < total - 1) {
         currentQuestionIndex++;
         renderCurrentQuestion();
+        // Scroll cleanly back to question top for next riddle
+        const activeCard = document.getElementById('quiz-active-card');
+        if (activeCard) {
+          const topPos = activeCard.getBoundingClientRect().top + window.scrollY - 60;
+          window.scrollTo({ top: Math.max(0, topPos), behavior: 'smooth' });
+        }
       } else {
         showResultsScreen();
       }
@@ -1891,6 +1921,11 @@
       if (currentQuestionIndex > 0) {
         currentQuestionIndex--;
         renderCurrentQuestion();
+        const activeCard = document.getElementById('quiz-active-card');
+        if (activeCard) {
+          const topPos = activeCard.getBoundingClientRect().top + window.scrollY - 60;
+          window.scrollTo({ top: Math.max(0, topPos), behavior: 'smooth' });
+        }
       }
     }
 
