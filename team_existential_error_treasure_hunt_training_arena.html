@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="hi" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Existential Error - Treasure Hunt Training Arena</title>
+  <!-- Google Fonts: Inter & Noto Sans Devanagari -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans Devanagari', 'sans-serif'],
+            hindi: ['Noto Sans Devanagari', 'Inter', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              300: '#7dd3fc',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e',
+              950: '#082f49'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .devanagari-text {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      line-height: 1.65;
+    }
+    .safe-bottom-padding {
+      padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 16px));
+    }
+    /* Smooth transitions */
+    .tab-pane {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+    }
+    .tab-pane.active {
+      display: block;
+      opacity: 1;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col bg-slate-50 text-slate-900 antialiased selection:bg-sky-200">
+
+  <!-- Desktop & Tablet Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-sky-100 shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-700 flex items-center justify-center text-white shadow-sm font-bold text-lg">
+          <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div>
+          <span class="font-extrabold tracking-tight text-slate-900 block leading-tight text-sm sm:text-base">TEAM EXISTENTIAL ERROR</span>
+          <span class="text-[11px] font-medium text-sky-700 tracking-wide uppercase">Treasure Hunt Arena</span>
+        </div>
+      </div>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center space-x-1">
+        <button onclick="switchTab('home')" id="desktop-nav-home" class="desktop-nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-sky-700 bg-sky-50 transition-all">Home</button>
+        <button onclick="switchTab('rules')" id="desktop-nav-rules" class="desktop-nav-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-sky-700 hover:bg-slate-50 transition-all">Rules</button>
+        <button onclick="switchTab('quiz')" id="desktop-nav-quiz" class="desktop-nav-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-sky-700 hover:bg-slate-50 transition-all">Take Quiz</button>
+        <button onclick="switchTab('tips')" id="desktop-nav-tips" class="desktop-nav-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-sky-700 hover:bg-slate-50 transition-all">Tips</button>
+      </nav>
+
+      <!-- Badge / Quick Status -->
+      <div class="hidden sm:flex items-center bg-sky-50 border border-sky-200/80 rounded-full px-3 py-1">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-2"></span>
+        <span class="text-xs font-semibold text-sky-800">4-Member Training Deck</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 safe-bottom-padding">
+
+    <!-- SECTION 1: HOME PAGE -->
+    <section id="view-home" class="tab-pane active space-y-6">
+      
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-b from-sky-100/70 via-sky-50/50 to-white border border-sky-100 p-6 sm:p-8 text-center sm:text-left shadow-sm">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 border border-sky-200 text-sky-800 text-xs font-semibold mb-4 shadow-2xs">
+          <svg class="w-3.5 h-3.5 text-sky-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+          College Campus Preparation Edition
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+          TEAM EXISTENTIAL ERROR
+        </h1>
+        <p class="text-lg font-semibold text-sky-700 mt-1">Treasure Hunt Training Arena</p>
+        <p class="text-slate-600 mt-3 text-sm sm:text-base max-w-2xl leading-relaxed">
+          Train your observation, logic, Hindi riddle-solving, teamwork, and location recognition skills before the hunt begins.
+        </p>
+
+        <!-- Mode Launch CTA buttons -->
+        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <button onclick="promptQuizStart()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-base shadow-md shadow-sky-600/20 active:scale-[0.98] transition-all">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+            START QUIZ
+          </button>
+          <button onclick="switchTab('rules')" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 font-semibold text-sm border border-slate-200 active:scale-[0.98] transition-all">
+            <svg class="w-4 h-4 text-sky-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+            View Rules
+          </button>
+          <button onclick="switchTab('tips')" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 font-semibold text-sm border border-slate-200 active:scale-[0.98] transition-all">
+            <svg class="w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            Read Tips
+          </button>
+        </div>
+      </div>
+
+      <!-- 3 Simple Statistics Cards -->
+      <div class="grid grid-cols-3 gap-3 sm:gap-4">
+        <div class="bg-white rounded-2xl p-4 text-center border border-slate-200/80 shadow-xs">
+          <div class="text-2xl sm:text-3xl font-extrabold text-sky-600 tracking-tight">50</div>
+          <div class="text-[12px] sm:text-xs font-medium text-slate-600 mt-1">Practice Puzzles</div>
+        </div>
+        <div class="bg-white rounded-2xl p-4 text-center border border-slate-200/80 shadow-xs">
+          <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">4</div>
+          <div class="text-[12px] sm:text-xs font-medium text-slate-600 mt-1">Options Per Puzzle</div>
+        </div>
+        <div class="bg-white rounded-2xl p-4 text-center border border-slate-200/80 shadow-xs">
+          <div class="text-2xl sm:text-3xl font-extrabold text-emerald-600 tracking-tight">Hindi</div>
+          <div class="text-[12px] sm:text-xs font-medium text-slate-600 mt-1">Riddle Practice</div>
+        </div>
+      </div>
+
+      <!-- Preparation Card -->
+      <div class="bg-white rounded-2xl p-5 border border-sky-100 shadow-xs space-y-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-sm">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 12l-4-4-4 4M12 16V8"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-900 text-sm">Generic College Campus Practice</h3>
+            <p class="text-xs text-slate-500">Master real campus deductive reasoning before the competition</p>
+          </div>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          College treasure hunts present poetic Hindi riddles that conceal distinct physical locations behind metaphors, sounds, objects, and activities. Practice identifying subtle keywords, eliminating lookalikes, and validating clues collectively.
+        </p>
+      </div>
+
+      <!-- Disclaimer Note Banner -->
+      <div class="bg-amber-50/80 rounded-2xl p-4 border border-amber-200/90 text-amber-900 flex items-start gap-3 text-xs sm:text-sm leading-relaxed">
+        <span class="text-lg select-none">⚠️</span>
+        <div>
+          <span class="font-bold block text-amber-950">Preparation Notice</span>
+          This is a practice app created for preparation. These are training puzzles and are not official event clues.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 2: RULES PAGE -->
+    <section id="view-rules" class="tab-pane space-y-4">
+      
+      <div class="bg-white rounded-2xl p-5 border border-sky-100 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Treasure Hunt Official Rule Book</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Strict guidelines governing fair play, navigation, and timing</p>
+        </div>
+        <button onclick="toggleAllAccordions()" id="toggle-accordions-btn" class="self-start sm:self-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-sky-50 text-sky-700 border border-sky-200 hover:bg-sky-100 transition-colors">
+          Expand All
+        </button>
+      </div>
+
+      <!-- Accordion Container -->
+      <div class="space-y-3" id="rules-accordion-group">
+
+        <!-- 1. Objective -->
+        <div class="accordion-item bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between gap-2 hover:bg-slate-50/80 transition-colors">
+            <span class="flex items-center gap-2.5 text-sm sm:text-base">
+              <span class="text-base">🎯</span>
+              <span>Objective</span>
+            </span>
+            <svg class="chevron w-4 h-4 text-slate-400 transform transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-content hidden px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-600 border-t border-slate-100 space-y-2">
+            <p>The Treasure Hunt is a team-based challenge involving: <strong>QR codes</strong>, <strong>riddles</strong>, <strong>logic</strong>, <strong>observation</strong>, and <strong>teamwork</strong>.</p>
+            <div class="p-3 bg-sky-50/80 rounded-xl border border-sky-100 text-sky-900 font-medium">
+              The basic flow is:<br>
+              <span class="font-bold text-sky-800">Scan QR → Solve Riddle → Find Location → Scan Next QR → Repeat</span>
+            </div>
+            <p>The final clue leads the team back to the Starting Point. The winner is the team that successfully completes the route according to the rules and reaches the Starting Point first.</p>
+          </div>
+        </div>
+
+        <!-- 2. Team Rules -->
+        <div class="accordion-item bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between gap-2 hover:bg-slate-50/80 transition-colors">
+            <span class="flex items-center gap-2.5 text-sm sm:text-base">
+              <span class="text-base">👥</span>
+              <span>Team Rules</span>
+            </span>
+            <svg class="chevron w-4 h-4 text-slate-400 transform transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-content hidden px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-600 border-t border-slate-100 space-y-2">
+            <ul class="list-disc pl-5 space-y-1.5">
+              <li>Every team must register before the event.</li>
+              <li>Every team needs a unique team name/number. Our team name: <strong class="text-sky-800 font-semibold">Existential Error</strong>.</li>
+              <li><strong>Team members must stay together at all times.</strong></li>
+              <li>Members <strong>cannot split up</strong> to search different locations simultaneously.</li>
+              <li>Only registered members can participate.</li>
+              <li class="text-slate-500 italic">Note: Team size is not set here because the official rulebook leaves the exact number blank.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 3. How The Hunt Works (Visual Timeline) -->
+        <div class="accordion-item bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between gap-2 hover:bg-slate-50/80 transition-colors">
+            <span class="flex items-center gap-2.5 text-sm sm:text-base">
+              <span class="text-base">📱</span>
+              <span>How The Hunt Works</span>
+            </span>
+            <svg class="chevron w-4 h-4 text-slate-400 transform transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-content hidden px-4 pb-4 pt-2 text-xs sm:text-sm text-slate-600 border-t border-slate-100">
+            <div class="relative border-l-2 border-sky-300 ml-3 pl-4 space-y-4 my-2">
+              <div class="relative">
+                <span class="absolute -left-[23px] top-0 w-3 h-3 rounded-full bg-sky-600 ring-4 ring-sky-100"></span>
+                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider block">1. START</span>
+                <p class="font-medium text-slate-800">Teams begin together at the designated starting point.</p>
+              </div>
+              <div class="relative">
+                <span class="absolute -left-[23px] top-0 w-3 h-3 rounded-full bg-sky-600 ring-4 ring-sky-100"></span>
+                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider block">2. SCAN</span>
+                <p class="font-medium text-slate-800">Scan the QR code to receive your assigned riddle clue.</p>
+              </div>
+              <div class="relative">
+                <span class="absolute -left-[23px] top-0 w-3 h-3 rounded-full bg-sky-600 ring-4 ring-sky-100"></span>
+                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider block">3. SOLVE</span>
+                <p class="font-medium text-slate-800">Solve the riddle and identify the physical location.</p>
+              </div>
+              <div class="relative">
+                <span class="absolute -left-[23px] top-0 w-3 h-3 rounded-full bg-sky-600 ring-4 ring-sky-100"></span>
+                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider block">4. FIND</span>
+                <p class="font-medium text-slate-800">Travel together as a single unit to that location.</p>
+              </div>
+              <div class="relative">
+                <span class="absolute -left-[23px] top-0 w-3 h-3 rounded-full bg-sky-600 ring-4 ring-sky-100"></span>
+                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider block">5. SCAN AGAIN</span>
+                <p class="font-medium text-slate-800">Find and scan the next QR code in the specified sequence.</p>
+              </div>
+              <div class="relative">
+                <span class="absolute -left-[23px] top-0 w-3 h-3 rounded-full bg-emerald-600 ring-4 ring-emerald-100"></span>
+                <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider block">6. FINAL CLUE</span>
+                <p class="font-medium text-slate-800">Follow the final clue back to the starting point and check in with organizers.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Winning Conditions -->
+        <div class="accordion-item bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between gap-2 hover:bg-slate-50/80 transition-colors">
+            <span class="flex items-center gap-2.5 text-sm sm:text-base">
+              <span class="text-base">🏆</span>
+              <span>Winning Conditions</span>
+            </span>
+            <svg class="chevron w-4 h-4 text-slate-400 transform transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-content hidden px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-600 border-t border-slate-100 space-y-2">
+            <p>To qualify as a winner, the team must:</p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Solve all required clues</li>
+              <li>Visit all required locations</li>
+              <li>Scan all required QR codes</li>
+              <li>Adhere strictly to every fair-play rule</li>
+              <li>Return successfully to the Starting Point together</li>
+            </ul>
+            <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 font-medium text-slate-800">
+              ⏱️ The timer starts when organizers announce <strong>“START!”</strong> and stops when the complete team reaches the Starting Point and checks in.
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. QR Rules -->
+        <div class="accordion-item bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between gap-2 hover:bg-slate-50/80 transition-colors">
+            <span class="flex items-center gap-2.5 text-sm sm:text-base">
+              <span class="text-base">🧩</span>
+              <span>QR Rules</span>
+            </span>
+            <svg class="chevron w-4 h-4 text-slate-400 transform transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-content hidden px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-600 border-t border-slate-100 space-y-1.5">
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Scan QR codes in the correct, assigned sequence.</li>
+              <li>Do not scan QR codes belonging to other teams or parallel routes.</li>
+              <li>Do not move, hide, damage, cover, replace, or alter QR codes under any circumstances.</li>
+              <li>Do not photograph and share QR codes with other teams.</li>
+              <li>Report any damaged or unreadable QR codes immediately to organizers.</li>
+              <li>Do not bypass or manipulate the digital QR system.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 6. Location Rules -->
+        <div class="accordion-item bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between gap-2 hover:bg-slate-50/80 transition-colors">
+            <span class="flex items-center gap-2.5 text-sm sm:text-base">
+              <span class="text-base">📍</span>
+              <span>Location Rules</span>
+            </span>
+            <svg class="chevron w-4 h-4 text-slate-400 transform transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-content hidden px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-600 border-t border-slate-100 space-y-1.5">
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Visit only the physical location indicated by the clue.</li>
+              <li>All team members must arrive at the location together.</li>
+              <li>Stay strictly within permitted campus areas.</li>
+              <li>Do not enter restricted or off-limit areas.</li>
+              <li>Do not climb walls, buildings, trees, gates, or structures.</li>
+              <li>Do not disturb classrooms, offices, laboratory equipment, or campus property.</li>
+              <li>Do not interfere with other participants.</li>
+              <li>Respect students, faculty, staff, visitors, and organizers at all times.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 7. Phone Rules -->
+        <div class="accordion-item bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between gap-2 hover:bg-slate-50/80 transition-colors">
+            <span class="flex items-center gap-2.5 text-sm sm:text-base">
+              <span class="text-base">📱</span>
+              <span>Phone Rules</span>
+            </span>
+            <svg class="chevron w-4 h-4 text-slate-400 transform transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-content hidden px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-600 border-t border-slate-100 space-y-2">
+            <div class="text-emerald-800 font-semibold">Phones ARE allowed for:</div>
+            <ul class="list-disc pl-5 space-y-0.5">
+              <li>QR scanning</li>
+              <li>Reading clues and riddles</li>
+              <li>Solving riddles within team discussion</li>
+              <li>Maps / navigation if organizers explicitly permit it</li>
+              <li>Taking team notes</li>
+            </ul>
+            <div class="text-rose-700 font-semibold pt-1">Strictly PROHIBITED on phones:</div>
+            <ul class="list-disc pl-5 space-y-0.5 text-rose-900">
+              <li>Searching the exact riddle text on Google (unless explicitly permitted).</li>
+              <li>Asking ChatGPT, Gemini, Copilot, or any AI tools to solve clues (unless explicitly permitted).</li>
+              <li>Calling or texting people outside the team for answers.</li>
+              <li>Sharing clues, codes, or solutions with other teams.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 8. Hint System -->
+        <div class="accordion-item bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between gap-2 hover:bg-slate-50/80 transition-colors">
+            <span class="flex items-center gap-2.5 text-sm sm:text-base">
+              <span class="text-base">💡</span>
+              <span>Hint System</span>
+            </span>
+            <svg class="chevron w-4 h-4 text-slate-400 transform transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-content hidden px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-600 border-t border-slate-100 space-y-2">
+            <p>The rulebook allows teams to request official hints when stuck.</p>
+            <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-amber-900 font-medium">
+              “Hint count and time penalties will be announced by the organizers.”
+            </div>
+            <p class="font-semibold text-slate-800">⚠️ Important: Once a hint is requested, it cannot be cancelled or refunded under any circumstance.</p>
+          </div>
+        </div>
+
+        <!-- 9. Prohibited Actions -->
+        <div class="accordion-item bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between gap-2 hover:bg-slate-50/80 transition-colors">
+            <span class="flex items-center gap-2.5 text-sm sm:text-base">
+              <span class="text-base">🚫</span>
+              <span>Prohibited Actions</span>
+            </span>
+            <svg class="chevron w-4 h-4 text-slate-400 transform transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-content hidden px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-600 border-t border-slate-100">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 my-1">
+              <div class="p-2.5 rounded-lg bg-rose-50/80 border border-rose-100 text-rose-900 font-medium">❌ Cheating or unauthorized assistance</div>
+              <div class="p-2.5 rounded-lg bg-rose-50/80 border border-rose-100 text-rose-900 font-medium">❌ QR code tampering or relocation</div>
+              <div class="p-2.5 rounded-lg bg-rose-50/80 border border-rose-100 text-rose-900 font-medium">❌ Splitting the team</div>
+              <div class="p-2.5 rounded-lg bg-rose-50/80 border border-rose-100 text-rose-900 font-medium">❌ Sharing information across teams</div>
+              <div class="p-2.5 rounded-lg bg-rose-50/80 border border-rose-100 text-rose-900 font-medium">❌ Following another team intentionally</div>
+              <div class="p-2.5 rounded-lg bg-rose-50/80 border border-rose-100 text-rose-900 font-medium">❌ Entering restricted/danger zones</div>
+              <div class="p-2.5 rounded-lg bg-rose-50/80 border border-rose-100 text-rose-900 font-medium">❌ Damaging campus property</div>
+              <div class="p-2.5 rounded-lg bg-rose-50/80 border border-rose-100 text-rose-900 font-medium">❌ Violence, pushing or misconduct</div>
+              <div class="p-2.5 rounded-lg bg-rose-50/80 border border-rose-100 text-rose-900 font-medium">❌ Shortcutting the hunt sequence</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10. Safety -->
+        <div class="accordion-item bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between gap-2 hover:bg-slate-50/80 transition-colors">
+            <span class="flex items-center gap-2.5 text-sm sm:text-base">
+              <span class="text-base">⚠️</span>
+              <span>Safety Guidelines</span>
+            </span>
+            <svg class="chevron w-4 h-4 text-slate-400 transform transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-content hidden px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-600 border-t border-slate-100 space-y-2">
+            <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-900 font-bold text-center">
+              “No treasure is worth risking your safety.”
+            </div>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Walk carefully throughout the campus; do not run blindly.</li>
+              <li>Always follow official campus security instructions.</li>
+              <li>Use designated pedestrian paths and walkways.</li>
+              <li>Watch out for vehicles and traffic near parking/gates.</li>
+              <li>Avoid dangerous, construction, or restricted areas.</li>
+              <li><strong>Do not run on staircases</strong> — step deliberately.</li>
+              <li>Do not push or physically interfere with other participants.</li>
+              <li>Report injuries or emergencies immediately to the nearest volunteer.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 11. Time & Scoring -->
+        <div class="accordion-item bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between gap-2 hover:bg-slate-50/80 transition-colors">
+            <span class="flex items-center gap-2.5 text-sm sm:text-base">
+              <span class="text-base">⏱️</span>
+              <span>Time & Scoring</span>
+            </span>
+            <svg class="chevron w-4 h-4 text-slate-400 transform transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-content hidden px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-600 border-t border-slate-100 space-y-2">
+            <div class="p-3 bg-sky-50 rounded-xl border border-sky-200 font-bold text-sky-900 text-center text-sm">
+              Final Time = Actual Completion Time + Penalty Time
+            </div>
+            <p><strong>Official Rulebook Example:</strong> If your team reaches the finish in 42 minutes but incurred 7 minutes of hint/infraction penalties, your official score is <strong>49 minutes</strong>.</p>
+            <p>The team with the <strong>lowest valid final time</strong> wins.</p>
+            <p class="font-medium text-slate-700"><strong>Tie-Breakers:</strong> In case of identical final times, ties are broken by: 1) Lowest total penalty minutes incurred; 2) Clue verification check accuracy.</p>
+          </div>
+        </div>
+
+        <!-- 12. Finish -->
+        <div class="accordion-item bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between gap-2 hover:bg-slate-50/80 transition-colors">
+            <span class="flex items-center gap-2.5 text-sm sm:text-base">
+              <span class="text-base">🏁</span>
+              <span>Finish Check-in</span>
+            </span>
+            <svg class="chevron w-4 h-4 text-slate-400 transform transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-content hidden px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-600 border-t border-slate-100 space-y-1.5">
+            <p>The whole team must reach the Starting Point together, report immediately to organizers, have route and QR verification checked, and have their official finishing timestamp recorded.</p>
+          </div>
+        </div>
+
+        <!-- 13. Organizer Authority -->
+        <div class="accordion-item bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left font-bold text-slate-900 flex items-center justify-between gap-2 hover:bg-slate-50/80 transition-colors">
+            <span class="flex items-center gap-2.5 text-sm sm:text-base">
+              <span class="text-base">👮</span>
+              <span>Organizer Authority</span>
+            </span>
+            <svg class="chevron w-4 h-4 text-slate-400 transform transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-content hidden px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-600 border-t border-slate-100 space-y-1.5">
+            <p>Organizers have full discretion to:</p>
+            <ul class="list-disc pl-5 space-y-0.5">
+              <li>Give or deny hints</li>
+              <li>Apply official time penalties</li>
+              <li>Stop a team for rules evaluation</li>
+              <li>Disqualify teams for unfair conduct</li>
+              <li>Modify a route if an unexpected campus blockage occurs</li>
+              <li>Replace damaged or unreadable QR codes</li>
+              <li>Halt or pause the hunt in an emergency</li>
+            </ul>
+            <p class="font-bold text-slate-800 pt-1">Organizer decisions are final in all disputes.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 3: QUIZ PAGE -->
+    <section id="view-quiz" class="tab-pane space-y-4">
+      
+      <!-- Quiz Setup Screen (if quiz not started) -->
+      <div id="quiz-setup-card" class="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-sm text-center space-y-6">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center">
+          <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div>
+          <h2 class="text-2xl font-extrabold text-slate-900">Hindi Riddle Training Arena</h2>
+          <p class="text-sm text-slate-500 mt-1 max-w-md mx-auto">
+            Choose your training mode. Every session shuffles questions and randomizes answer positions to develop pure reasoning skills.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto text-left">
+          <!-- Mode 1: Quick Practice -->
+          <div onclick="startQuizMode('quick')" class="cursor-pointer group p-5 rounded-2xl border-2 border-slate-200 hover:border-sky-500 hover:bg-sky-50/50 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Fast Drill</span>
+              <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-sky-100 text-sky-800">10 Puzzles</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mt-2 group-hover:text-sky-700">QUICK PRACTICE</h3>
+            <p class="text-xs text-slate-500 mt-1">Random 10 questions from the 50-puzzle pool. Great for quick team sprint practice.</p>
+          </div>
+
+          <!-- Mode 2: Full Quiz -->
+          <div onclick="startQuizMode('full')" class="cursor-pointer group p-5 rounded-2xl border-2 border-sky-500 bg-sky-50/30 hover:bg-sky-50 hover:border-sky-600 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-sky-700">Full Marathon</span>
+              <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-sky-600 text-white">50 Puzzles</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mt-2 group-hover:text-sky-800">FULL QUIZ</h3>
+            <p class="text-xs text-slate-500 mt-1">All 50 unique college campus riddles in randomized order. Complete mastery.</p>
+          </div>
+        </div>
+
+        <div class="text-xs text-slate-400">
+          Generic College Campus Practice • No repeated questions in a single run
+        </div>
+      </div>
+
+      <!-- Quiz Active Board (Hidden until started) -->
+      <div id="quiz-active-card" class="hidden space-y-4">
+        
+        <!-- Progress Header -->
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-2xs space-y-3">
+          <div class="flex items-center justify-between text-xs sm:text-sm">
+            <div class="flex items-center gap-2">
+              <span id="quiz-badge-mode" class="px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-800 font-bold text-xs">MODE</span>
+              <span id="quiz-question-counter" class="font-bold text-slate-800">प्रश्न 01 / 10</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-slate-500 text-xs font-medium">Category:</span>
+              <span id="quiz-category-tag" class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-semibold text-xs">अवलोकन</span>
+              <span class="text-slate-300">|</span>
+              <span class="text-xs font-semibold text-sky-700">Score: <span id="quiz-score-display" class="font-bold">0</span></span>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+            <div id="quiz-progress-bar" class="bg-sky-500 h-full rounded-full transition-all duration-300" style="width: 10%;"></div>
+          </div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="bg-white rounded-3xl p-5 sm:p-7 border border-sky-100 shadow-sm space-y-5">
+          
+          <!-- Riddle Container (devanagari styled, 4 lines) -->
+          <div class="p-5 sm:p-6 rounded-2xl bg-sky-50/60 border border-sky-200/70">
+            <div class="flex items-center gap-2 text-sky-800 text-xs font-bold uppercase tracking-wider mb-2.5">
+              <svg class="w-4 h-4 text-sky-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              <span>पहेली (Riddle)</span>
+            </div>
+            <div id="riddle-lines-container" class="devanagari-text text-slate-900 font-semibold text-base sm:text-lg space-y-1.5 leading-relaxed">
+              <!-- Dynamically populated 4 lines -->
+            </div>
+          </div>
+
+          <!-- Answer Options (4 buttons) -->
+          <div class="space-y-2.5" id="quiz-options-container">
+            <!-- Dynamically populated 4 options -->
+          </div>
+
+          <!-- Feedback & Explanation Box -->
+          <div id="quiz-explanation-box" class="hidden rounded-2xl p-4 sm:p-5 transition-all">
+            <div class="flex items-center justify-between mb-2">
+              <div id="quiz-feedback-status" class="flex items-center gap-2 font-extrabold text-sm sm:text-base">
+                <!-- '✓ सही उत्तर' or '✗ गलत उत्तर' -->
+              </div>
+              <div id="quiz-correct-location" class="text-xs font-bold px-2.5 py-1 rounded-full bg-white/80 border">
+                <!-- स्थान: पुस्तकालय -->
+              </div>
+            </div>
+            <div class="text-xs sm:text-sm font-medium leading-relaxed" id="quiz-explanation-text">
+              <!-- Explanation reasoning -->
+            </div>
+          </div>
+
+          <!-- Navigation Footer (Prev / Next) -->
+          <div class="pt-2 flex items-center justify-between gap-3">
+            <button onclick="prevQuestion()" id="quiz-prev-btn" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs sm:text-sm transition-all disabled:opacity-40 disabled:pointer-events-none">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+              पिछला (Prev)
+            </button>
+
+            <button onclick="nextQuestion()" id="quiz-next-btn" class="inline-flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all disabled:opacity-40 disabled:pointer-events-none">
+              <span>अगला (Next)</span>
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Quiz Result Screen (Hidden initially) -->
+      <div id="quiz-result-card" class="hidden bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-sm text-center space-y-6">
+        <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-sky-100 text-sky-700 shadow-xs text-3xl">
+          🧩
+        </div>
+
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-tight">TREASURE HUNT READY?</h2>
+          <p class="text-xs text-slate-500 mt-0.5">Training Session Complete</p>
+        </div>
+
+        <!-- Big Score Box -->
+        <div class="bg-gradient-to-b from-sky-50 to-white rounded-2xl p-6 border border-sky-200/70 max-w-sm mx-auto space-y-1">
+          <div class="text-4xl sm:text-5xl font-black text-sky-700 tracking-tight" id="result-score-ratio">
+            42 / 50
+          </div>
+          <div class="text-sm sm:text-base font-bold text-slate-700" id="result-score-accuracy">
+            Accuracy: 84%
+          </div>
+        </div>
+
+        <!-- Tier Evaluation Banner -->
+        <div id="result-tier-banner" class="max-w-md mx-auto p-4 rounded-2xl border text-sm font-semibold flex items-center justify-center gap-2">
+          <!-- Dynamic Tier text -->
+        </div>
+
+        <p class="text-xs text-slate-400 max-w-xs mx-auto italic">
+          These are ONLY training labels, not official event rankings.
+        </p>
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <button onclick="promptQuizStart()" class="w-full sm:w-auto px-7 py-3 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm shadow-sm transition-all">
+            TRY AGAIN
+          </button>
+          <button onclick="switchTab('home')" class="w-full sm:w-auto px-6 py-3 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 font-semibold text-sm border border-slate-200 transition-all">
+            HOME
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 4: TIPS PAGE -->
+    <section id="view-tips" class="tab-pane space-y-5">
+      
+      <!-- Page Header -->
+      <div class="bg-white rounded-2xl p-5 border border-sky-100 shadow-xs">
+        <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Treasure Hunt Tips</h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Practical tactical guide for solving riddles, pacing, and seamless team coordination</p>
+      </div>
+
+      <!-- Tips Cards Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        
+        <!-- Tip 1 -->
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-2xs space-y-1.5">
+          <div class="flex items-center gap-2 font-bold text-slate-900 text-sm">
+            <span>🧠</span>
+            <span>Solve Smart</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Read all four lines carefully before making a hasty guess. Early lines set the mood, but the 3rd or 4th line usually gives away the exact distinguishing campus element.
+          </p>
+        </div>
+
+        <!-- Tip 2 -->
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-2xs space-y-1.5">
+          <div class="flex items-center gap-2 font-bold text-slate-900 text-sm">
+            <span>👀</span>
+            <span>Observe</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Think about physical campus characteristics: What does one hear (sound of keyboard, silence), smell (chemicals, food), or touch (cold railings, keys, water)?
+          </p>
+        </div>
+
+        <!-- Tip 3 -->
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-2xs space-y-1.5">
+          <div class="flex items-center gap-2 font-bold text-slate-900 text-sm">
+            <span>🗣️</span>
+            <span>Discuss</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Let everyone pitch interpretations in the first 20 seconds. If two members strongly agree on a logical clue, cross-verify before sprinting.
+          </p>
+        </div>
+
+        <!-- Tip 4 -->
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-2xs space-y-1.5">
+          <div class="flex items-center gap-2 font-bold text-slate-900 text-sm">
+            <span>🗺️</span>
+            <span>Navigate</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Once you identify a location, move together as a single pack. Moving scattered invites disqualification and confuses communication.
+          </p>
+        </div>
+
+        <!-- Tip 5 -->
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-2xs space-y-1.5">
+          <div class="flex items-center gap-2 font-bold text-slate-900 text-sm">
+            <span>📱</span>
+            <span>Phone Discipline</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Use the phone strictly for scanning and reading riddles. Searching exact riddle text online or prompting AI models like ChatGPT/Gemini is strictly prohibited by official rules.
+          </p>
+        </div>
+
+        <!-- Tip 6 -->
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-2xs space-y-1.5">
+          <div class="flex items-center gap-2 font-bold text-slate-900 text-sm">
+            <span>⏱️</span>
+            <span>Don't Get Stuck</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            If discussion reaches a dead end after several minutes, evaluate whether taking an official penalty hint is smarter than burning valuable clock time.
+          </p>
+        </div>
+
+        <!-- Tip 7 -->
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-2xs space-y-1.5">
+          <div class="flex items-center gap-2 font-bold text-slate-900 text-sm">
+            <span>👥</span>
+            <span>Stay Together</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Never split the team to cover multiple campus wings. If an organizer spots team members separated, your team faces instant penalties or disqualification.
+          </p>
+        </div>
+
+        <!-- Tip 8 -->
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-2xs space-y-1.5">
+          <div class="flex items-center gap-2 font-bold text-slate-900 text-sm">
+            <span>🚫</span>
+            <span>Don't Follow Other Teams</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Tailgating another team to find locations is prohibited and foolish: other teams may be on different clue sequences or heading down the wrong corridor.
+          </p>
+        </div>
+
+        <!-- Tip 9 -->
+        <div class="sm:col-span-2 bg-rose-50/70 rounded-2xl p-4 border border-rose-200/80 shadow-2xs space-y-1.5">
+          <div class="flex items-center gap-2 font-bold text-rose-950 text-sm">
+            <span>🏃</span>
+            <span>Safety First</span>
+          </div>
+          <p class="text-xs sm:text-sm text-rose-900 leading-relaxed">
+            Speed is completely useless if you create a safety hazard or injure someone. Walk swiftly, keep eyes open near stairs and blind corners, and never sprint blindly inside academic blocks.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Team Strategy Card (TEAM EXISTENTIAL ERROR) -->
+      <div class="bg-gradient-to-br from-white via-sky-50/40 to-sky-100/50 rounded-3xl p-5 sm:p-6 border border-sky-200 shadow-sm space-y-4">
+        <div>
+          <span class="text-[11px] font-bold tracking-wider uppercase text-sky-700 block">4-Member Squad Architecture</span>
+          <h3 class="text-lg sm:text-xl font-extrabold text-slate-900">TEAM EXISTENTIAL ERROR — ROLE SUGGESTION</h3>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+          
+          <div class="p-3.5 bg-white rounded-xl border border-sky-100 shadow-2xs space-y-1">
+            <div class="font-bold text-slate-900 flex items-center gap-1.5">
+              <span>🧠</span>
+              <span>Riddle Analyst</span>
+            </div>
+            <p class="text-slate-600 text-xs">
+              Focuses on linguistic nuances, Devanagari metaphors, double meanings, and distinguishing hints in the poem.
+            </p>
+          </div>
+
+          <div class="p-3.5 bg-white rounded-xl border border-sky-100 shadow-2xs space-y-1">
+            <div class="font-bold text-slate-900 flex items-center gap-1.5">
+              <span>🗺️</span>
+              <span>Navigator</span>
+            </div>
+            <p class="text-slate-600 text-xs">
+              Visualizes campus geography, stairs, wings, shortcuts, and maps the shortest safe path between buildings.
+            </p>
+          </div>
+
+          <div class="p-3.5 bg-white rounded-xl border border-sky-100 shadow-2xs space-y-1">
+            <div class="font-bold text-slate-900 flex items-center gap-1.5">
+              <span>👀</span>
+              <span>Observer</span>
+            </div>
+            <p class="text-slate-600 text-xs">
+              Scans target locations upon arrival (door frames, notice edges, pillars, desks) to spot the hidden QR quickly.
+            </p>
+          </div>
+
+          <div class="p-3.5 bg-white rounded-xl border border-sky-100 shadow-2xs space-y-1">
+            <div class="font-bold text-slate-900 flex items-center gap-1.5">
+              <span>📱</span>
+              <span>QR & Time Lead</span>
+            </div>
+            <p class="text-slate-600 text-xs">
+              Keeps scanner ready, reads clue aloud clearly, logs team split-times, and watches the clock continuously.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="p-3 bg-white/90 rounded-xl border border-sky-200/80 text-xs text-sky-950 font-medium text-center">
+          💡 Everyone should discuss the clue. Roles are for focus, not for preventing other members from participating.
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Mobile Sticky Bottom Navigation Bar -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-t border-sky-100 px-3 py-2 flex items-center justify-around shadow-lg">
+    
+    <button onclick="switchTab('home')" id="mobile-nav-home" class="mobile-nav-btn flex flex-col items-center justify-center py-1 px-3 rounded-xl text-sky-600 transition-colors">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="text-[11px] font-bold mt-1">Home</span>
+    </button>
+
+    <button onclick="switchTab('rules')" id="mobile-nav-rules" class="mobile-nav-btn flex flex-col items-center justify-center py-1 px-3 rounded-xl text-slate-500 hover:text-sky-600 transition-colors">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+      <span class="text-[11px] font-semibold mt-1">Rules</span>
+    </button>
+
+    <button onclick="switchTab('quiz')" id="mobile-nav-quiz" class="mobile-nav-btn flex flex-col items-center justify-center py-1 px-3 rounded-xl text-slate-500 hover:text-sky-600 transition-colors">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+      <span class="text-[11px] font-semibold mt-1">Quiz</span>
+    </button>
+
+    <button onclick="switchTab('tips')" id="mobile-nav-tips" class="mobile-nav-btn flex flex-col items-center justify-center py-1 px-3 rounded-xl text-slate-500 hover:text-sky-600 transition-colors">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+      <span class="text-[11px] font-semibold mt-1">Tips</span>
+    </button>
+
+  </nav>
+
+  <script>
+    /**
+     * FULL 50-QUESTION HINDI LOCATION RIDDLE DATABASE
+     * Each riddle:
+     * - Exactly 4 lines of authentic Devanagari verse
+     * - Exactly 4 plausible campus options
+     * - 1 precise target answer text
+     * - Category & pedagogical explanation
+     */
+    const RAW_PUZZLES = [
+      {
+        id: 1,
+        category: "अवलोकन (Observation)",
+        riddle: [
+          "चार दीवारों के बीच ज्ञान का संसार,",
+          "किताबों से भरता है मेरा भंडार।",
+          "शांत रहकर विद्यार्थी यहाँ आते हैं,",
+          "पढ़ते हैं, सीखते हैं और लौट जाते हैं।"
+        ],
+        options: ["कैंटीन", "पुस्तकालय", "मैदान", "प्रयोगशाला"],
+        answerText: "पुस्तकालय",
+        explanation: "किताबों की अलमारियां, शांत वातावरण और अध्ययन का संदर्भ स्पष्ट रूप से पुस्तकालय (Library) की ओर संकेत करता है।"
+      },
+      {
+        id: 2,
+        category: "कार्य-आधारित (Function)",
+        riddle: [
+          "लंच ब्रेक में जहाँ मचे भारी शोर,",
+          "समोसे और चाय खींचे अपनी ओर।",
+          "दोस्तों की महफिल जहाँ पर जमती है,",
+          "भूख मिटाकर ही हर मंडली चलती है।"
+        ],
+        options: ["कैंटीन", "स्टाफ रूम", "ऑडिटोरियम", "जिमखाना"],
+        answerText: "कैंटीन",
+        explanation: "समोसे, चाय, दोपहर के भोजन का शोर और दोस्तों की अनौपचारिक महफिल कैंटीन की विशिष्ट पहचान है।"
+      },
+      {
+        id: 3,
+        category: "स्थान-पहचान (Venue)",
+        riddle: [
+          "बड़ा सा मंच और लाल कुर्सियों की कतार,",
+          "माइक पर गूंजे जब शब्दों की बौछार।",
+          "वार्षिकोत्सव का जब बजता है डंका,",
+          "हजारों तालियों से गूंजता यह बांका।"
+        ],
+        options: ["सभागार (Auditorium)", "सेमिनार हॉल", "कक्षा कक्ष", "कॉमन रूम"],
+        answerText: "सभागार (Auditorium)",
+        explanation: "भव्य मंच, लाल सीटें, विशाल दर्शक क्षमता और वार्षिकोत्सव/नाट्य मंचन सभागार (Auditorium) में ही होते हैं।"
+      },
+      {
+        id: 4,
+        category: "तकनीक व अवलोकन (Tech)",
+        riddle: [
+          "एसी की ठंडक में नीली स्क्रीन मुस्काए,",
+          "की-बोर्ड की खट-खट संगीत सुनाए।",
+          "कोडिंग और तारों का लगा है यहाँ जाल,",
+          "जूते बाहर रखकर चलते सब चाल।"
+        ],
+        options: ["कंप्यूटर लैब", "भौतिकी लैब", "सर्वर रूम", "लाइब्रेरी"],
+        answerText: "कंप्यूटर लैब",
+        explanation: "स्क्रीन, की-बोर्ड की टाइपिंग, कोडिंग और धूल से बचाव हेतु जूते बाहर रखने का नियम कंप्यूटर लैब का संकेत देता है।"
+      },
+      {
+        id: 5,
+        category: "अवलोकन व गंध (Sensory)",
+        riddle: [
+          "रंग-बिरंगे द्रवों की शीशियां रखी हैं,",
+          "परखनलियों से हल्की धुआं उठती है।",
+          "एप्रन पहनकर छात्र खड़े हैं कतार में,",
+          "एसिड और बेस के इस अद्भुत संसार में।"
+        ],
+        options: ["रसायन प्रयोगशाला", "भौतिकी लैब", "मेडिकल रूम", "स्टोर रूम"],
+        answerText: "रसायन प्रयोगशाला",
+        explanation: "परखनली (Test Tube), एप्रन, एसिड-बेस प्रतिक्रियाएं और रंग-बिरंगे रसायन 'रसायनशाला' (Chemistry Lab) को दर्शाते हैं।"
+      },
+      {
+        id: 6,
+        category: "प्रशासनिक (Authority)",
+        riddle: [
+          "कॉलेज की बागडोर जिसके हाथ में रहे,",
+          "अनुशासन का सर्वोच्च पहरा जहाँ बहे।",
+          "इजाजत लेकर ही अंदर कदम बढ़ाते हैं,",
+          "कॉलेज के मुखिया जहाँ आसन सजाते हैं।"
+        ],
+        options: ["प्राचार्य कार्यालय", "स्टाफ रूम", "रिसेप्शन", "परीक्षा विभाग"],
+        answerText: "प्राचार्य कार्यालय",
+        explanation: "कॉलेज के मुखिया (Principal) और सर्वोच्च अनुशासनात्मक अधिकार 'प्राचार्य कार्यालय' का लक्षण है।"
+      },
+      {
+        id: 7,
+        category: "सीमा व प्रवेश (Perimeter)",
+        riddle: [
+          "लोहे का भारी फाटक सीना ताने खड़ा,",
+          "आईडी कार्ड देखकर ही खोले रास्ता बड़ा।",
+          "सुबह का पहला और शाम का अंतिम पड़ाव,",
+          "कैंपस की सीमा पर जिसका है जमाव।"
+        ],
+        options: ["मुख्य प्रवेश द्वार", "पार्किंग क्षेत्र", "साइकिल स्टैंड", "बैक गेट"],
+        answerText: "मुख्य प्रवेश द्वार",
+        explanation: "लोहे का विशाल फाटक, गार्ड द्वारा आईडी कार्ड जांचना और कॉलेज की मुख्य सीमा 'मुख्य प्रवेश द्वार' है।"
+      },
+      {
+        id: 8,
+        category: "खेलकूद (Outdoor)",
+        riddle: [
+          "हरी दूब पर दौड़ते कदमों की है बात,",
+          "सीटी की आवाज और पसीने की सौगात।",
+          "गोल पोस्ट और दौड़ने की चौड़ी राह,",
+          "हर खिलाड़ी की जहाँ पूरी हो चाह।"
+        ],
+        options: ["कॉलेज का मैदान", "बास्केटबॉल कोर्ट", "बगीचा", "खुला प्रांगण"],
+        answerText: "कॉलेज का मैदान",
+        explanation: "घास का विस्तृत मैदान, गोल पोस्ट, दौड़ की पट्टी (track) और खेलकूद 'कॉलेज स्पोर्ट्स ग्राउंड' को संदर्भित करते हैं।"
+      },
+      {
+        id: 9,
+        category: "वैज्ञानिक (Apparatus)",
+        riddle: [
+          "प्रिज्म से छनकर इंद्रधनुष मुस्काता,",
+          "पेंडुलम की गति समय की लय बताता।",
+          "स्क्रूगेज और वर्नियर का जहाँ बसेरा,",
+          "माप-तोल का विज्ञान करता नया सवेरा।"
+        ],
+        options: ["भौतिकी प्रयोगशाला", "रसायन प्रयोगशाला", "कंप्यूटर लैब", "वर्कशॉप"],
+        answerText: "भौतिकी प्रयोगशाला",
+        explanation: "प्रिज्म (प्रकाश विक्षेपण), पेंडुलम, वर्नियर कैलिपर्स और स्क्रूगेज भौतिकी (Physics Lab) के मुख्य उपकरण हैं।"
+      },
+      {
+        id: 10,
+        category: "लॉजिस्टिक (Campus Utility)",
+        riddle: [
+          "दोपहिया और चारपहिया की लंबी कतार,",
+          "सफेद-पीली पट्टियों का अनुशासनदार आधार।",
+          "चाबी घूमते ही इंजन भरता है दम,",
+          "आने-जाने के पहियों को यहाँ मिले विश्राम।"
+        ],
+        options: ["पार्किंग क्षेत्र", "साइकिल स्टैंड", "मुख्य द्वार", "सुरक्षा डेस्क"],
+        answerText: "पार्किंग क्षेत्र",
+        explanation: "वाहन, सफेद-पीली मार्किंग और इंजन को आराम देने की जगह कॉलेज का वाहन 'पार्किंग क्षेत्र' है।"
+      },
+      {
+        id: 11,
+        category: "सूचना व अवलोकन (Notice)",
+        riddle: [
+          "कांच के बक्से में टंगी है हर जानकारी,",
+          "परीक्षा हो या छुट्टी, इस पर नजर सबकी भारी।",
+          "पिन से चिपके फरमान कॉलेज का हाल सुनाते,",
+          "भीड़ लगाकर छात्र जहाँ रोज पढ़ने आते।"
+        ],
+        options: ["नोटिस बोर्ड", "रिसेप्शन", "लाइब्रेरी", "परीक्षा विभाग"],
+        answerText: "नोटिस बोर्ड",
+        explanation: "कांच की चौखट, पिन से लगे कागजी फरमान और भीड़ द्वारा जानकारी पढ़ना 'नोटिस बोर्ड' की स्पष्ट पहचान है।"
+      },
+      {
+        id: 12,
+        category: "उपयोगिता (Utility)",
+        riddle: [
+          "स्टील की काया से बहती शीतल धार,",
+          "गर्मियों की दोपहर में करता बेड़ा पार।",
+          "बोतलें भरने की जहाँ लगी रहती होड़,",
+          "प्यास बुझाने का यही सबसे सच्चा मोड़।"
+        ],
+        options: ["वॉटर कूलर / पेयजल क्षेत्र", "कैंटीन", "वॉशरूम", "मेडिकल रूम"],
+        answerText: "वॉटर कूलर / पेयजल क्षेत्र",
+        explanation: "स्टील बॉडी, ठंडा पानी और बोतल भरने की कतार 'वॉटर कूलर / ड्रिंकिंग वॉटर एरिया' की पहचान है।"
+      },
+      {
+        id: 13,
+        category: "खेल क्षेत्र (Sports Court)",
+        riddle: [
+          "पक्की जमीन पर दोनों छोर जाली लटकी,",
+          "नारंगी गेंद की फर्श पर आवाज खटकी।",
+          "ड्रिबल करते कदम और उछलते खिलाड़ी,",
+          "ऊंचे रिंग में गेंद डालने की तैयारी।"
+        ],
+        options: ["बास्केटबॉल कोर्ट", "वॉलीबॉल कोर्ट", "टेनिस कोर्ट", "क्रिकेट पिच"],
+        answerText: "बास्केटबॉल कोर्ट",
+        explanation: "ऊंचे खंभों पर लटके रिंग/जाले, ड्रिबलिंग और नारंगी गेंद 'बास्केटबॉल कोर्ट' को इंगित करते हैं।"
+      },
+      {
+        id: 14,
+        category: "संरचना (Architecture)",
+        riddle: [
+          "कदम दर कदम जो ऊपर की ओर ले जाए,",
+          "रेलिंग थामे छात्र जहाँ चढ़ते-उतरते आए।",
+          "मंजिल से मंजिल को जोड़ने वाला सेतु,",
+          "पैरों की मेहनत लगे शिखर पहुँचने हेतु।"
+        ],
+        options: ["सीढ़ियाँ (Staircase)", "लिफ्ट लॉबी", "कॉरिडोर", "रैंप"],
+        answerText: "सीढ़ियाँ (Staircase)",
+        explanation: "रेलिंग, कदम-दर-कदम ऊपर ले जाने वाले पत्थर के पायदान कॉलेज की 'सीढ़ियाँ' हैं।"
+      },
+      {
+        id: 15,
+        category: "प्रकृति (Nature)",
+        riddle: [
+          "रंग-बिरंगे फूल महकें, हरी दूब बिछी है,",
+          "तितलियों की मस्ती शाखों पर सजी है।",
+          "पत्थरों की बेंचों पर बैठकर सुकून पाएं,",
+          "प्रकृति की छांव में जहाँ सब थकान भुलाएं।"
+        ],
+        options: ["कॉलेज बगीचा (Garden)", "मैदान", "खुला प्रांगण", "टेरेस"],
+        answerText: "कॉलेज बगीचा (Garden)",
+        explanation: "फूल, हरी घास, तितलियां और पत्थरों की बेंच 'कॉलेज गार्डन / बॉटनिकल लॉन' को दर्शाते हैं।"
+      },
+      {
+        id: 16,
+        category: "स्वास्थ्य व सुरक्षा (Health)",
+        riddle: [
+          "सफेद चादर वाला बिस्तर, मरहम-पट्टी की पेटी,",
+          "चोट लगे या चक्कर आए, यह संभाल लेती।",
+          "डिटॉल की गंध हवा में पहचानी जाती,",
+          "प्राथमिक उपचार की दवा यहाँ मिल जाती।"
+        ],
+        options: ["मेडिकल / फर्स्ट-एड कक्ष", "स्टाफ रूम", "स्पोर्ट्स रूम", "प्रिंसिपल ऑफिस"],
+        answerText: "मेडिकल / फर्स्ट-एड कक्ष",
+        explanation: "डिटॉल, मरहम-पट्टी, बेड और चोट का प्राथमिक उपचार 'मेडिकल / फर्स्ट-एड रूम' का हिस्सा है।"
+      },
+      {
+        id: 17,
+        category: "संकाय (Faculty)",
+        riddle: [
+          "कॉपियों का ढेर लगा, मेजें सजीं कतार में,",
+          "गुरुजन जहाँ विश्राम करें कक्षा के अंतराल में।",
+          "चाय की चुस्कियों संग अगली कक्षा की तैयारी,",
+          "छात्रों की इजाजत बिन अंदर आना है भारी।"
+        ],
+        options: ["स्टाफ रूम", "प्रिंसिपल कक्ष", "क्लासरूम", "सेमिनार हॉल"],
+        answerText: "स्टाफ रूम",
+        explanation: "शिक्षकों (Faculty) का विश्राम स्थल जहाँ उत्तर-पुस्तिकाएं जांची जाती हैं, 'स्टाफ रूम' कहलाता है।"
+      },
+      {
+        id: 18,
+        category: "गोपनीय (Confidential)",
+        riddle: [
+          "सील बंद लिफाफों में प्रश्नपत्र मुस्काएं,",
+          "हॉल टिकट और रोल नंबर की सूची बनाएं।",
+          "गोपनीयता का सख्त पहरा जहाँ लगा रहता,",
+          "अंक और परिणामों का भाग्य यहीं से बहता।"
+        ],
+        options: ["परीक्षा विभाग (Exam Cell)", "अकाउंट्स विभाग", "लाइब्रेरी", "प्लेसमेंट सेल"],
+        answerText: "परीक्षा विभाग (Exam Cell)",
+        explanation: "प्रश्नपत्रों के सीलबंद पैकेट, रोल नंबर, हॉल टिकट और परिणाम का प्रबंधन 'परीक्षा विभाग' करता है।"
+      },
+      {
+        id: 19,
+        category: "करियर (Career)",
+        riddle: [
+          "फॉर्मल सूट में सजे छात्र, हाथों में रेज्युमे का ढेर,",
+          "कंपनियों के इंटरव्यू में लगती नहीं है देर।",
+          "पैकेज और ऑफर लेटर की जहाँ सजती महफिल,",
+          "नौकरी की मंजिल की ओर बढ़ता हर एक दिल।"
+        ],
+        options: ["प्लेसमेंट सेल", "एडमिशन ऑफिस", "प्रिंसिपल ऑफिस", "स्टाफ रूम"],
+        answerText: "प्लेसमेंट सेल",
+        explanation: "फॉर्मल परिधान, कंपनियों के साक्षात्कार (interviews) और जॉब ऑफर 'प्लेसमेंट सेल' से जुड़े हैं।"
+      },
+      {
+        id: 20,
+        category: "सेवा व मुद्रण (Print Services)",
+        riddle: [
+          "मशीन की सर-सर आवाज और टोनर की गंध,",
+          "असाइनमेंट के सबमिशन का टूटे न कोई प्रबंध।",
+          "ज़ेरॉक्स की कॉपियां धड़ाधड़ निकलती जाएं,",
+          "स्पाइरल बाइंडिंग कराने सब छात्र दौड़े आएं।"
+        ],
+        options: ["फोटोकॉपी / प्रिंटिंग शॉप", "स्टेशनरी स्टोर", "कंप्यूटर लैब", "लाइब्रेरी"],
+        answerText: "फोटोकॉपी / प्रिंटिंग शॉप",
+        explanation: "ज़ेरॉक्स मशीन, टोनर स्याही, स्पाइरल बाइंडिंग और असाइनमेंट प्रिंटिंग का कार्य 'फोटोकॉपी शॉप' का है।"
+      },
+      {
+        id: 21,
+        category: "सुरक्षा (Security)",
+        riddle: [
+          "रजिस्टर में लिखा जाए हर आने वाले का नाम,",
+          "वर्दी में तैनात प्रहरी करता अपना काम।",
+          "सीसीटीवी के मॉनिटर पर हर कोने की तस्वीर,",
+          "कैंपस की सुरक्षा की यही पहली जंजीर।"
+        ],
+        options: ["सुरक्षा डेस्क / गार्ड केबिन", "रिसेप्शन", "पार्किंग", "मुख्य गेट"],
+        answerText: "सुरक्षा डेस्क / गार्ड केबिन",
+        explanation: "एंट्री रजिस्टर, गार्ड की तैनाती और सीसीटीवी मॉनिटर 'सुरक्षा डेस्क / गार्ड केबिन' की पहचान हैं।"
+      },
+      {
+        id: 22,
+        category: "आधुनिक आवागमन (Vertical Transit)",
+        riddle: [
+          "धातु के दो दरवाजे और बटन पर तीर निशान,",
+          "ऊपर-नीचे पलक झपकते ले जाए आसान।",
+          "घंटी की मद्धम टिंग और कपाट खुल जाएं,",
+          "बिना पैर चलाए सब मंजिल पर पहुँच जाएं।"
+        ],
+        options: ["लिफ्ट लॉबी (Elevator Area)", "सीढ़ियाँ", "कॉरिडोर", "रैंप"],
+        answerText: "लिफ्ट लॉबी (Elevator Area)",
+        explanation: "धातु के स्वचालित दरवाजे, फ्लोर बटन और 'टिंग' आवाज लिफ्ट लॉबी की ओर इशारा करती है।"
+      },
+      {
+        id: 23,
+        category: "आंतरिक मार्ग (Passageway)",
+        riddle: [
+          "दायें-बायें कमरे अनेक, लंबा सीधा फर्श,",
+          "घंटी बजते ही भर जाता, मिटता इसका विमर्श।",
+          "कैंपस की धमनियों जैसा हर कक्षा को जोड़े,",
+          "कदमों की आवाज सुनकर कभी न नाता तोड़े।"
+        ],
+        options: ["कॉरिडोर / गलियारा", "सीढ़ियाँ", "हॉल", "पोर्च"],
+        answerText: "कॉरिडोर / गलियारा",
+        explanation: "सभी कमरों को जोड़ने वाला मुख्य सीधा लंबा रास्ता कॉलेज का 'कॉरिडोर / गलियारा' होता है।"
+      },
+      {
+        id: 24,
+        category: "पर्यावरण वाहन (Eco Transit)",
+        riddle: [
+          "लोहे के खांचों में पहिया फंसा रहता कतार में,",
+          "घंटी और पैडल सजते सादे इस संसार में।",
+          "पेट्रोल बिन जो चले, उसका यहाँ ठिकाना,",
+          "ताला लगाकर सुरक्षित घर को वापस जाना।"
+        ],
+        options: ["साइकिल स्टैंड", "कार पार्किंग", "बस स्टॉप", "गेट"],
+        answerText: "साइकिल स्टैंड",
+        explanation: "पैडल, घंटी, स्टैंड के खांचे और बिना पेट्रोल के वाहन 'साइकिल स्टैंड' को प्रकट करते हैं।"
+      },
+      {
+        id: 25,
+        category: "वित्त (Finance)",
+        riddle: [
+          "फीस रसीद और चालान का जहाँ पर होता काम,",
+          "स्कॉलरशिप के कागजात सुलझें सुबह और शाम।",
+          "खिड़की के पीछे से हिसाब-किताब की बात,",
+          "कैंपस के अर्थतंत्र की यही है सौगात।"
+        ],
+        options: ["लेखा / अकाउंट्स कार्यालय", "परीक्षा विभाग", "प्रिंसिपल ऑफिस", "बैंक शाखा"],
+        answerText: "लेखा / अकाउंट्स कार्यालय",
+        explanation: "कॉलेज फीस, रसीद, स्कॉलरशिप और आर्थिक बहीखाता 'अकाउंट्स / लेखा विभाग' में संभाला जाता है।"
+      },
+      {
+        id: 26,
+        category: "स्वागत व दिशा (Inquiry)",
+        riddle: [
+          "प्रवेश करते ही सामने जो काउंटर मुस्काए,",
+          "नये आगंतुकों को सही दिशा बतलाए।",
+          "विजिटर पास और फोन की बजती घंटी जहाँ,",
+          "पूछताछ की पहली चौखट स्थित है यहाँ।"
+        ],
+        options: ["रिसेप्शन / पूछताछ केंद्र", "सुरक्षा केबिन", "एडमिन ब्लॉक", "स्टाफ रूम"],
+        answerText: "रिसेप्शन / पूछताछ केंद्र",
+        explanation: "नए लोगों को जानकारी, विजिटर पास और मुख्य लॉबी का सूचना पटल 'रिसेप्शन' होता है।"
+      },
+      {
+        id: 27,
+        category: "अकादमिक प्रस्तुति (Academic)",
+        riddle: [
+          "प्रोजेक्टर की बीम से जलती सामने की दीवार,",
+          "शोध पत्र और प्रेजेंटेशन का चलता कारोबार।",
+          "ऑडिटोरियम से छोटा पर ज्ञान का गंभीर धाम,",
+          "गेस्ट लेक्चर सुनकर जहाँ विद्यार्थी पाएं मान।"
+        ],
+        options: ["सेमिनार हॉल", "ऑडिटोरियम", "क्लासरूम", "लैब"],
+        answerText: "सेमिनार हॉल",
+        explanation: "गेस्ट लेक्चर, शोध प्रेजेंटेशन और मध्यम आकार की सभागार व्यवस्था 'सेमिनार हॉल' की विशेषता है।"
+      },
+      {
+        id: 28,
+        category: "खेल (Court Sports)",
+        riddle: [
+          "बीचों-बीच तना ऊंचा जाल, जमीन पर रेतीली शान,",
+          "हथेलियों से गेंद उछालकर दिखाएं अपनी जान।",
+          "सर्विस और स्मैश का चलता अद्भुत खेल,",
+          "छह-छह खिलाड़ियों का आपस में दिखे मेल।"
+        ],
+        options: ["वॉलीबॉल कोर्ट", "बास्केटबॉल कोर्ट", "फुटबॉल ग्राउंड", "बैडमिंटन"],
+        answerText: "वॉलीबॉल कोर्ट",
+        explanation: "ऊंचा नेट, दोनों तरफ 6-6 खिलाड़ी और हथेलियों से स्मैश/सर्विस 'वॉलीबॉल कोर्ट' को दर्शाते हैं।"
+      },
+      {
+        id: 29,
+        category: "खुली संस्कृति (Open Cultural)",
+        riddle: [
+          "बिना छत की सीढ़ीनुमा गोलाकार यह बैठक,",
+          "नुक्कड़ नाटक की डफली पर नाचती हर रौनक।",
+          "शाम की ठंडी हवा में दोस्त जहाँ पर गाएं,",
+          "मुक्त आकाश तले सब अपनी कला दिखाएं।"
+        ],
+        options: ["खुला प्रांगण / एम्फीथिएटर", "ऑडिटोरियम", "स्पोर्ट्स ग्राउंड", "टेरेस"],
+        answerText: "खुला प्रांगण / एम्फीथिएटर",
+        explanation: "सीढ़ीदार खुली बैठक, बिना छत का आकाश और नुक्कड़ नाटक 'ओपन एम्फीथिएटर / खुला प्रांगण' है।"
+      },
+      {
+        id: 30,
+        category: "छात्र विश्राम (Recreation)",
+        riddle: [
+          "लेक्चर के खाली घंटों में जहाँ छात्र सुस्ताएं,",
+          "कैरम और शतरंज की बाजी मिलकर सजाएं।",
+          "न कोई शिक्षक का पहरा, न पढ़ाई की कोई बात,",
+          "आराम और गपशप की कटती जहाँ सौगात।"
+        ],
+        options: ["छात्र विश्राम क्षेत्र (Common Room)", "कैंटीन", "लाइब्रेरी", "स्पोर्ट्स ग्राउंड"],
+        answerText: "छात्र विश्राम क्षेत्र (Common Room)",
+        explanation: "खाली पीरियड में विश्राम, इनडोर बोर्ड गेम्स और शिक्षकों के नियंत्रण से मुक्त कमरा 'छात्र कॉमन रूम' है।"
+      },
+      {
+        id: 31,
+        category: "डिजिटल धड़कन (IT Core)",
+        riddle: [
+          "रैक में बंद नीली-हरी बत्तियां टिमटिमाएं,",
+          "लैन तारों का जाल पूरे कैंपस में फैलाएं।",
+          "वाई-फाई और इंटरनेट का जहाँ धड़कता दिल,",
+          "अनधिकृत प्रवेश जहाँ पूर्णतया है मुश्किल।"
+        ],
+        options: ["आईटी व सर्वर रूम", "कंप्यूटर लैब", "इलेक्ट्रिकल रूम", "मीडिया रूम"],
+        answerText: "आईटी व सर्वर रूम",
+        explanation: "सर्वर रैक, ब्लिंक करती एलईडी बत्तियां और पूरे कैंपस के नेटवर्क का मुख्य हब 'सर्वर रूम' है।"
+      },
+      {
+        id: 32,
+        category: "कार्यालयी कागजात (Admin)",
+        riddle: [
+          "टीसी, बोनाफाइड और एडमिशन फाइलों का अंबार,",
+          "मुहर और दस्तखत के लिए क्लर्कों का दरबार।",
+          "कॉलेज का हर कागजी तंत्र जहाँ संभाला जाए,",
+          "सरकारी औपचारिकताओं का गढ़ यह कहलाए।"
+        ],
+        options: ["प्रशासनिक कार्यालय (Admin Office)", "प्रिंसिपल ऑफिस", "अकाउंट्स रूम", "परीक्षा कक्ष"],
+        answerText: "प्रशासनिक कार्यालय (Admin Office)",
+        explanation: "दाखिला, टीसी, प्रमाण-पत्र और आधिकारिक क्लर्क फाइलों का मुख्य केंद्र 'प्रशासनिक कार्यालय' है।"
+      },
+      {
+        id: 33,
+        category: "दैनिक शिक्षा (Core Education)",
+        riddle: [
+          "हरा या काला तख्ता सामने, चाक की सफेद लकीर,",
+          "बेंचों पर बस्ते रखे, तकदीर बनाता कबीर।",
+          "रोल कॉल की आवाज पर सब कहते 'प्रेजेंट सर',",
+          "ज्ञान की पहली पाठशाला बनता यह कमरा घर।"
+        ],
+        options: ["कक्षा-कक्ष (Classroom)", "सेमिनार हॉल", "लाइब्रेरी", "प्रयोगशाला"],
+        answerText: "कक्षा-कक्ष (Classroom)",
+        explanation: "ब्लैक/ग्रीन बोर्ड, चॉक-डस्टर, डेस्क-बेंच और अटेंडेंस 'कक्षा-कक्ष' (Classroom) की पहचान हैं।"
+      },
+      {
+        id: 34,
+        category: "खेल अभ्यास (Cricket Nets)",
+        riddle: [
+          "बाईस गज की पक्की पट्टी, लोहे की जालीदार दीवार,",
+          "गेंदबाज दौड़कर फेंके, बल्ला करता प्रहार।",
+          "पैड और हेलमेट पहनकर पसीना जहाँ बहाएं,",
+          "क्रिकेट के धुरंधर जहाँ अपना खेल चमकाएं।"
+        ],
+        options: ["क्रिकेट पिच व नेट्स", "फुटबॉल मैदान", "बास्केटबॉल कोर्ट", "जिम"],
+        answerText: "क्रिकेट पिच व नेट्स",
+        explanation: "22 गज की पट्टी, नेट्स की जाली और पैड-हेलमेट पहनकर गेंदबाजी 'क्रिकेट अभ्यास नेट्स' को दर्शाते हैं।"
+      },
+      {
+        id: 35,
+        category: "इनडोर खेल (Indoor Games)",
+        riddle: [
+          "टेबल टेनिस की टक-टक गेंद का खेल निराला,",
+          "डम्बल और ट्रेडमिल का भी कोना संभाला।",
+          "धूप-बारिश से बेपरवाह इनडोर खेल का धाम,",
+          "तंदुरुस्ती और फुर्ती का यहाँ सजता पैगाम।"
+        ],
+        options: ["जिमखाना / इनडोर स्पोर्ट्स", "मैदान", "कॉमन रूम", "कैंटीन"],
+        answerText: "जिमखाना / इनडोर स्पोर्ट्स",
+        explanation: "टेबल टेनिस, डम्बल और इनडोर व्यायाम उपकरण कॉलेज के 'जिमखाना / इनडोर स्पोर्ट्स रूम' में होते हैं।"
+      },
+      {
+        id: 36,
+        category: "वैकल्पिक मार्ग (Rear Access)",
+        riddle: [
+          "मुख्य द्वार जितनी चहल-पहल यहाँ नहीं दिखती,",
+          "कैंपस के पिछले कोने में यह डगर खुलती।",
+          "शॉर्टकट से बाहर निकलने की यह शांत राह,",
+          "कम भीड़-भाड़ की जहाँ पूरी होती चाह।"
+        ],
+        options: ["पीछे का निकास द्वार (Back Gate)", "मुख्य द्वार", "साइकिल स्टैंड", "पार्किंग"],
+        answerText: "पीछे का निकास द्वार (Back Gate)",
+        explanation: "कैंपस का कम भीड़-भाड़ वाला वैकल्पिक पिछला गेट 'पीछे का निकास द्वार (Back Gate)' है।"
+      },
+      {
+        id: 37,
+        category: "सामाजिक सेवा (Social Club)",
+        riddle: [
+          "रक्तदान शिविर के पोस्टर और सेवा का संकल्प,",
+          "समाज भलाई के कार्यों का जहाँ मिले विकल्प।",
+          "स्वयंसेवकों की टोली जहाँ योजना बनाती,",
+          "परहित के कार्यों से यह दुनिया मुस्कुराती।"
+        ],
+        options: ["एनएसएस / क्लब गतिविधि कक्ष", "स्पोर्ट्स रूम", "स्टाफ रूम", "क्लासरूम"],
+        answerText: "एनएसएस / क्लब गतिविधि कक्ष",
+        explanation: "रक्तदान शिविर, समाज सेवा और स्वयंसेवकों की गतिविधि 'एनएसएस / सोशल क्लब रूम' से संचालित होती है।"
+      },
+      {
+        id: 38,
+        category: "तकनीकी जोखिम (High Voltage)",
+        riddle: [
+          "खोपड़ी और दो हड्डियों का लाल निशान डराए,",
+          "हाई वोल्टेज का झटका कोई सह न पाए।",
+          "बिजली गुल होने पर जनरेटर जहाँ से जागे,",
+          "आम छात्रों का कदम जहाँ से फौरन भागे।"
+        ],
+        options: ["इलेक्ट्रिकल पैनल / यूटिलिटी रूम", "सर्वर रूम", "स्टोर रूम", "केमिस्ट्री लैब"],
+        answerText: "इलेक्ट्रिकल पैनल / यूटिलिटी रूम",
+        explanation: "खतरे का लाल संकेत, हाई वोल्टेज स्विचबोर्ड और जनरेटर 'इलेक्ट्रिकल यूटिलिटी रूम' में होते हैं।"
+      },
+      {
+        id: 39,
+        category: "ऊंचाई (Top Level)",
+        riddle: [
+          "सबसे ऊपरी पायदान पर खुला विस्तार मिले,",
+          "सोलर पैनल और पानी की टंकियों का संसार खिले।",
+          "दूर तलक पूरे कॉलेज का विहंगम दृश्य दिखे,",
+          "हवा के झोंकों संग जहाँ नीले गगन की बात लिखे।"
+        ],
+        options: ["कॉलेज टैरेस / छत", "ऑडिटोरियम बालकनी", "तीसरी मंजिल", "वाटर टैंक"],
+        answerText: "कॉलेज टैरेस / छत",
+        explanation: "सोलर पैनल, पानी की विशाल टंकियां और कैंपस का पैनोरमिक ऊपरी दृश्य 'कॉलेज टैरेस / छत' पर होता है।"
+      },
+      {
+        id: 40,
+        category: "दृश्य-श्रव्य (Audio Visual)",
+        riddle: [
+          "काले पर्दों से खिड़कियों पर अंधेरा छा जाता,",
+          "छत से लटका प्रोजेक्टर बड़ा पर्दा चमकाता।",
+          "डॉक्यूमेंट्री और ऑडियो का गूंजता गहरा बेस,",
+          "सिनेमा जैसी कक्षा का जहाँ बदल जाए भेष।"
+        ],
+        options: ["प्रोजेक्टर / मीडिया कक्ष", "कंप्यूटर लैब", "ऑडिटोरियम", "क्लासरूम"],
+        answerText: "प्रोजेक्टर / मीडिया कक्ष",
+        explanation: "काले पर्दे, अंधेरा कमरा, सीलिंग माउंटेड प्रोजेक्टर और सराउंड साउंड 'एवी / मीडिया रूम' का संकेत हैं।"
+      },
+      {
+        id: 41,
+        category: "शांत अध्ययन (Outdoor Study)",
+        riddle: [
+          "पेड़ों के झुरमुट में बना छोटा गोल मचान,",
+          "पत्थरों की गोल मेज पर बैठें कुछ विद्वान।",
+          "परीक्षा से पहले शांति से रिवीज़न करते,",
+          "खुली हवा में पढ़ाई के रंग जहाँ पर भरते।"
+        ],
+        options: ["शांत अध्ययन कुटीर / गज़ेबो", "कैंटीन", "पवेलियन", "बस स्टॉप"],
+        answerText: "शांत अध्ययन कुटीर / गज़ेबो",
+        explanation: "छायादार पेड़ों के नीचे गोल छतरीनुमा चबूतरा (Gazebo) कैंपस का 'शांत अध्ययन क्षेत्र' होता है।"
+      },
+      {
+        id: 42,
+        category: "संग्रह (Storage)",
+        riddle: [
+          "अतिरिक्त कुर्सियां, टेंट और पुराने बैनर रखे हैं,",
+          "धूल भरी अलमारियों में बंद कई परखें हैं।",
+          "साल में किसी बड़े उत्सव पर ही ताला खुले,",
+          "सामग्री का यह भंडार चुपचाप अंधेरे में पले।"
+        ],
+        options: ["केंद्रीय स्टोर रूम (Store Room)", "वर्कशॉप", "लैब", "फैकल्टी रूम"],
+        answerText: "केंद्रीय स्टोर रूम (Store Room)",
+        explanation: "अतिरिक्त फर्नीचर, बैनर और कभी-कभार इस्तेमाल होने वाले सामान का गोदाम 'स्टोर रूम' कहलाता है।"
+      },
+      {
+        id: 43,
+        category: "प्रातः अनुशासन (Assembly)",
+        riddle: [
+          "सुबह की घंटी बजते ही सीधी कतारें लग जाएं,",
+          "राष्ट्रगान के सम्मान में सब मस्तक झुक जाएं।",
+          "माइक से दिन की अच्छी शुरुआत की गूंज उठे,",
+          "अनुशासन और एकता का जहाँ दीप जले।"
+        ],
+        options: ["प्रार्थना / असेंबली क्षेत्र", "खेल मैदान", "ऑडिटोरियम", "पार्किंग"],
+        answerText: "प्रार्थना / असेंबली क्षेत्र",
+        explanation: "सुबह की कतारें, राष्ट्रगान और अनुशासनबद्ध असेंबली 'प्रार्थना क्षेत्र / असेंबली ग्राउंड' पर होती है।"
+      },
+      {
+        id: 44,
+        category: "ईमानदारी (Lost & Found)",
+        riddle: [
+          "गिरा हुआ बटुआ या छूटी हुई पानी की बोतल,",
+          "लावारिस मिली वस्तु का यही है अंतिम स्थल।",
+          "पहचान बताकर जो अपनी अमानत वापस पाए,",
+          "ईमानदारी का भरोसा जहाँ हर दिल में मुस्कुराए।"
+        ],
+        options: ["लॉस्ट एंड फाउंड डेस्क", "सुरक्षा डेस्क", "रिसेप्शन", "प्रिंसिपल ऑफिस"],
+        answerText: "लॉस्ट एंड फाउंड डेस्क",
+        explanation: "खोई हुई वस्तुओं को जमा करने और पहचान बताकर प्राप्त करने का स्थान 'लॉस्ट एंड फाउंड' डेस्क है।"
+      },
+      {
+        id: 45,
+        category: "जैविक विज्ञान (Bio Lab)",
+        riddle: [
+          "कांच के जार में रखे हैं संरक्षित जीव-जंतु,",
+          "माइक्रोस्कोप के नीचे दिखे अमीबा और तंतु।",
+          "हड्डियों का ढांचा कोने में खड़ा मुस्काए,",
+          "जीवन के रहस्यों को जहाँ विज्ञान सुलझाए।"
+        ],
+        options: ["जीव विज्ञान प्रयोगशाला", "फिजिक्स लैब", "केमिस्ट्री लैब", "मेडिकल रूम"],
+        answerText: "जीव विज्ञान प्रयोगशाला",
+        explanation: "प्रिजर्व्ड नमूने, माइक्रोस्कोप, कंकाल और वनस्पति/जंतु स्लाइड 'जीव विज्ञान लैब' में पाए जाते हैं।"
+      },
+      {
+        id: 46,
+        category: "स्वच्छता (Hygiene)",
+        riddle: [
+          "दर्पण के आगे लगा है वॉशबेसिन और नल,",
+          "साबुन से हाथ धोकर मिटाएं दिनभर का मल।",
+          "गलियारे के छोर पर स्त्री-पुरुष का चिन्ह मिले,",
+          "स्वच्छता और सुविधा का जहाँ विधान खिले।"
+        ],
+        options: ["शौचालय / वॉशरूम क्षेत्र", "वॉटर कूलर", "मेडिकल रूम", "कैंटीन बेसिन"],
+        answerText: "शौचालय / वॉशरूम क्षेत्र",
+        explanation: "मिरर, वॉशबेसिन, सोप डिस्पेंसर और जेंडर संकेतक 'शौचालय / वॉशरूम क्षेत्र' को इंगित करते हैं।"
+      },
+      {
+        id: 47,
+        category: "औषधीय वनस्पति (Botanical)",
+        riddle: [
+          "हरी जाली की छत तले नमी का बसेरा रहे,",
+          "तुलसी, गिलोय और एलोवेरा का डेरा रहे।",
+          "गमलों में सजे हैं दुर्लभ जड़ी-बूटियों के पौधे,",
+          "पर्यावरण के छात्र जहाँ नए अनुसंधान शोधें।"
+        ],
+        options: ["ग्रीन हाउस / हर्बल गार्डन", "कॉलेज बगीचा", "स्पोर्ट्स ग्राउंड", "नर्सरी"],
+        answerText: "ग्रीन हाउस / हर्बल गार्डन",
+        explanation: "हरी जालीदार छत (Greenhouse) और औषधीय जड़ी-बूटियों (Herbs) का संवर्धन 'हर्बल गार्डन' की पहचान है।"
+      },
+      {
+        id: 48,
+        category: "विविध आयोजन (Multipurpose)",
+        riddle: [
+          "कभी योग की चटाई बिछे, कभी प्रदर्शनी सज जाए,",
+          "कभी चुनाव का मतदान केंद्र यह बन जाए।",
+          "लचीले उपयोग का यह विशाल कक्ष कहलाता,",
+          "एक नाम में जो अनेक आयोजनों को समाता।"
+        ],
+        options: ["बहुउद्देश्यीय हॉल", "सेमिनार हॉल", "ऑडिटोरियम", "क्लासरूम"],
+        answerText: "बहुउद्देश्यीय हॉल",
+        explanation: "योग, आर्ट गैलरी, प्रदर्शनी या आंतरिक चुनाव जैसे विविध कार्यों हेतु 'बहुउद्देश्यीय (Multipurpose) हॉल' का उपयोग होता है।"
+      },
+      {
+        id: 49,
+        category: "विभागाध्यक्ष (Department Head)",
+        riddle: [
+          "दरवाजे पर सजी है विभागाध्यक्ष की पट्टिका,",
+          "प्रोजेक्ट अप्रूवल की जहाँ लगती है मुहर-लतिका।",
+          "विशिष्ट फैकल्टी का यह व्यक्तिगत गंभीर धाम,",
+          "सब्जेक्ट का मुखिया जहाँ करे नीतिगत काम।"
+        ],
+        options: ["विभागाध्यक्ष / फैकल्टी केबिन", "स्टाफ रूम", "प्रिंसिपल ऑफिस", "एडमिन ब्लॉक"],
+        answerText: "विभागाध्यक्ष / फैकल्टी केबिन",
+        explanation: "विभागाध्यक्ष (HOD) की निजी नेमप्लेट, प्रोजेक्ट साइनिंग और विषय संबंधी मार्गदर्शन 'फैकल्टी केबिन' में मिलता है।"
+      },
+      {
+        id: 50,
+        category: "छात्र रचनात्मकता (Creative Board)",
+        riddle: [
+          "हाथ से बनी पेंटिंग, स्वरचित कविताएं और कार्टून,",
+          "छात्रों की कल्पना और कला का झलकता जुनून।",
+          "आधिकारिक नोटिसों से अलग इसका मिजाज,",
+          "दीवार पर सजी प्रतिभा का यह सुंदर ताज।"
+        ],
+        options: ["रचनात्मक सूचना पटल (Creative Board)", "आधिकारिक नोटिस बोर्ड", "लाइब्रेरी", "आर्ट रूम"],
+        answerText: "रचनात्मक सूचना पटल (Creative Board)",
+        explanation: "छात्रों की पेंटिंग, स्वरचित कविताएं और आर्ट वर्क प्रदर्शित करने वाला वॉल-बोर्ड 'रचनात्मक सूचना पटल' होता है।"
+      }
+    ];
+
+    /**
+     * Pre-flight automated validation check
+     */
+    (function validateDataset() {
+      console.assert(RAW_PUZZLES.length === 50, "Dataset must have exactly 50 riddles!");
+      RAW_PUZZLES.forEach((item, index) => {
+        console.assert(item.riddle.length === 4, `Question #${item.id} does not have 4 lines!`);
+        console.assert(item.options.length === 4, `Question #${item.id} does not have 4 options!`);
+        console.assert(item.options.includes(item.answerText), `Question #${item.id} answerText not in options!`);
+      });
+      console.log("✓ Team Existential Error: All 50 riddles verified successfully.");
+    })();
+  </script>
+
+  <script>
+    /* Global Application State */
+    let currentActiveTab = 'home';
+    let currentQuizMode = null; // 'quick' (10) or 'full' (50)
+    let sessionQuestions = [];
+    let currentQuestionIndex = 0;
+    let userSelections = {}; // index -> selected option string
+    let currentSessionScore = 0;
+
+    /**
+     * Utility: Fisher-Yates array shuffler (pure, non-mutating)
+     */
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    /**
+     * Switch Tabs (Home, Rules, Quiz, Tips)
+     */
+    function switchTab(tabId) {
+      currentActiveTab = tabId;
+
+      // Toggle Panes
+      const panes = ['home', 'rules', 'quiz', 'tips'];
+      panes.forEach(pane => {
+        const el = document.getElementById(`view-${pane}`);
+        if (pane === tabId) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      });
+
+      // Update Desktop Nav Styling
+      document.querySelectorAll('.desktop-nav-btn').forEach(btn => {
+        btn.classList.remove('bg-sky-50', 'text-sky-700', 'font-semibold');
+        btn.classList.add('text-slate-600', 'font-medium');
+      });
+      const activeDeskBtn = document.getElementById(`desktop-nav-${tabId}`);
+      if (activeDeskBtn) {
+        activeDeskBtn.classList.remove('text-slate-600', 'font-medium');
+        activeDeskBtn.classList.add('bg-sky-50', 'text-sky-700', 'font-semibold');
+      }
+
+      // Update Mobile Nav Styling
+      document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+        btn.classList.remove('text-sky-600');
+        btn.classList.add('text-slate-500');
+      });
+      const activeMobBtn = document.getElementById(`mobile-nav-${tabId}`);
+      if (activeMobBtn) {
+        activeMobBtn.classList.remove('text-slate-500');
+        activeMobBtn.classList.add('text-sky-600');
+      }
+
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /**
+     * Trigger Quiz from Home
+     */
+    function promptQuizStart() {
+      switchTab('quiz');
+      // Show setup card
+      document.getElementById('quiz-setup-card').classList.remove('hidden');
+      document.getElementById('quiz-active-card').classList.add('hidden');
+      document.getElementById('quiz-result-card').classList.add('hidden');
+    }
+
+    /**
+     * Accordion Logic for Rules Page
+     */
+    function toggleAccordion(btn) {
+      const content = btn.nextElementSibling;
+      const chevron = btn.querySelector('.chevron');
+      const isHidden = content.classList.contains('hidden');
+
+      if (isHidden) {
+        content.classList.remove('hidden');
+        chevron.classList.add('rotate-180');
+      } else {
+        content.classList.add('hidden');
+        chevron.classList.remove('rotate-180');
+      }
+    }
+
+    let allAccordionsExpanded = false;
+    function toggleAllAccordions() {
+      const items = document.querySelectorAll('#rules-accordion-group .accordion-item');
+      const toggleBtn = document.getElementById('toggle-accordions-btn');
+      allAccordionsExpanded = !allAccordionsExpanded;
+
+      items.forEach(item => {
+        const content = item.querySelector('.accordion-content');
+        const chevron = item.querySelector('.chevron');
+        if (allAccordionsExpanded) {
+          content.classList.remove('hidden');
+          chevron.classList.add('rotate-180');
+        } else {
+          content.classList.add('hidden');
+          chevron.classList.remove('rotate-180');
+        }
+      });
+
+      toggleBtn.textContent = allAccordionsExpanded ? 'Collapse All' : 'Expand All';
+    }
+  </script>
+
+  <script>
+    /**
+     * Start Quiz Session
+     * Mode: 'quick' (10 random) | 'full' (all 50 shuffled)
+     */
+    function startQuizMode(mode) {
+      currentQuizMode = mode;
+      userSelections = {};
+      currentSessionScore = 0;
+      currentQuestionIndex = 0;
+
+      // 1. Randomize questions
+      const shuffledAll = shuffleArray(RAW_PUZZLES);
+      const chosenRaw = (mode === 'quick') ? shuffledAll.slice(0, 10) : shuffledAll;
+
+      // 2. Format questions & randomize options order per question
+      sessionQuestions = chosenRaw.map(q => {
+        const randomizedOptions = shuffleArray(q.options);
+        return {
+          id: q.id,
+          category: q.category,
+          riddle: q.riddle,
+          options: randomizedOptions,
+          correctAnswer: q.answerText,
+          explanation: q.explanation
+        };
+      });
+
+      // Switch screens
+      document.getElementById('quiz-setup-card').classList.add('hidden');
+      document.getElementById('quiz-result-card').classList.add('hidden');
+      document.getElementById('quiz-active-card').classList.remove('hidden');
+
+      // Update badge
+      document.getElementById('quiz-badge-mode').textContent = (mode === 'quick') ? 'QUICK (10)' : 'FULL (50)';
+
+      renderCurrentQuestion();
+    }
+
+    /**
+     * Render the active question
+     */
+    function renderCurrentQuestion() {
+      const q = sessionQuestions[currentQuestionIndex];
+      const total = sessionQuestions.length;
+      const questionNumber = currentQuestionIndex + 1;
+
+      // Header info
+      document.getElementById('quiz-question-counter').textContent = `प्रश्न ${String(questionNumber).padStart(2, '0')} / ${total}`;
+      document.getElementById('quiz-category-tag').textContent = q.category;
+      document.getElementById('quiz-score-display').textContent = currentSessionScore;
+
+      // Progress bar
+      const percent = (questionNumber / total) * 100;
+      document.getElementById('quiz-progress-bar').style.width = `${percent}%`;
+
+      // Render 4 lines of Riddle
+      const riddleContainer = document.getElementById('riddle-lines-container');
+      riddleContainer.innerHTML = '';
+      q.riddle.forEach(line => {
+        const p = document.createElement('div');
+        p.textContent = line;
+        riddleContainer.appendChild(p);
+      });
+
+      // Render 4 Option Buttons
+      const optionsContainer = document.getElementById('quiz-options-container');
+      optionsContainer.innerHTML = '';
+
+      const previousSelection = userSelections[currentQuestionIndex];
+      const hasAnswered = previousSelection !== undefined;
+
+      const letters = ['A', 'B', 'C', 'D'];
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-3.5 sm:p-4 rounded-2xl border-2 transition-all flex items-center justify-between gap-3 text-xs sm:text-sm font-semibold cursor-pointer select-none active:scale-[0.99]";
+
+        // Option prefix
+        const letterSpan = `<span class="inline-flex items-center justify-center w-6 h-6 rounded-lg text-xs font-bold ${
+          hasAnswered ? 'bg-slate-200 text-slate-700' : 'bg-sky-100 text-sky-800'
+        }">${letters[idx]}</span>`;
+
+        if (!hasAnswered) {
+          // Default unselected state
+          btn.classList.add('border-slate-200', 'bg-white', 'text-slate-800', 'hover:border-sky-400', 'hover:bg-sky-50/50');
+          btn.innerHTML = `
+            <div class="flex items-center gap-3">
+              ${letterSpan}
+              <span>${opt}</span>
+            </div>
+            <div class="w-4 h-4 rounded-full border border-slate-300"></div>
+          `;
+          btn.onclick = () => selectOption(opt);
+        } else {
+          // Disabled state after selection
+          btn.disabled = true;
+          btn.classList.add('cursor-default');
+
+          if (opt === q.correctAnswer) {
+            // Correct Answer Styling (Always Green)
+            btn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-950');
+            btn.innerHTML = `
+              <div class="flex items-center gap-3">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-lg text-xs font-bold bg-emerald-600 text-white">✓</span>
+                <span class="font-bold">${opt}</span>
+              </div>
+              <span class="text-xs font-bold text-emerald-700">सही स्थान</span>
+            `;
+          } else if (opt === previousSelection) {
+            // User picked wrong option (Red)
+            btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-950');
+            btn.innerHTML = `
+              <div class="flex items-center gap-3">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-lg text-xs font-bold bg-rose-600 text-white">✕</span>
+                <span class="font-medium line-through text-rose-900">${opt}</span>
+              </div>
+              <span class="text-xs font-bold text-rose-600">गलत विकल्प</span>
+            `;
+          } else {
+            // Neutral unselected options
+            btn.classList.add('border-slate-200', 'bg-slate-50', 'text-slate-400', 'opacity-60');
+            btn.innerHTML = `
+              <div class="flex items-center gap-3">
+                ${letterSpan}
+                <span>${opt}</span>
+              </div>
+            `;
+          }
+        }
+
+        optionsContainer.appendChild(btn);
+      });
+
+      // Explanation Box
+      const explanationBox = document.getElementById('quiz-explanation-box');
+      if (hasAnswered) {
+        explanationBox.classList.remove('hidden');
+        const isCorrect = previousSelection === q.correctAnswer;
+
+        const feedbackStatus = document.getElementById('quiz-feedback-status');
+        const correctLocation = document.getElementById('quiz-correct-location');
+        const explanationText = document.getElementById('quiz-explanation-text');
+
+        if (isCorrect) {
+          explanationBox.className = "rounded-2xl p-4 sm:p-5 transition-all bg-emerald-50 border border-emerald-200 text-emerald-950";
+          feedbackStatus.innerHTML = `<span class="text-emerald-600 text-lg">✓</span> <span class="text-emerald-800">सही उत्तर</span>`;
+          correctLocation.className = "text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300";
+        } else {
+          explanationBox.className = "rounded-2xl p-4 sm:p-5 transition-all bg-rose-50 border border-rose-200 text-rose-950";
+          feedbackStatus.innerHTML = `<span class="text-rose-600 text-lg">✕</span> <span class="text-rose-800">गलत उत्तर</span>`;
+          correctLocation.className = "text-xs font-bold px-2.5 py-1 rounded-full bg-white text-slate-800 border border-slate-200";
+        }
+
+        correctLocation.textContent = `स्थान: ${q.correctAnswer}`;
+        explanationText.innerHTML = `<strong class="block mb-1 text-slate-900">क्यों?</strong> ${q.explanation}`;
+      } else {
+        explanationBox.classList.add('hidden');
+      }
+
+      // Prev / Next button states
+      const prevBtn = document.getElementById('quiz-prev-btn');
+      const nextBtn = document.getElementById('quiz-next-btn');
+
+      prevBtn.disabled = currentQuestionIndex === 0;
+
+      if (currentQuestionIndex === total - 1) {
+        nextBtn.innerHTML = `<span>परिणाम देखें (Results)</span> <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>`;
+      } else {
+        nextBtn.innerHTML = `<span>अगला (Next)</span> <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>`;
+      }
+    }
+
+    /**
+     * User clicks an option
+     */
+    function selectOption(selectedText) {
+      if (userSelections[currentQuestionIndex] !== undefined) return; // Prevent double answer
+
+      const q = sessionQuestions[currentQuestionIndex];
+      userSelections[currentQuestionIndex] = selectedText;
+
+      if (selectedText === q.correctAnswer) {
+        currentSessionScore++;
+      }
+
+      renderCurrentQuestion();
+    }
+
+    /**
+     * Next question
+     */
+    function nextQuestion() {
+      const total = sessionQuestions.length;
+      if (currentQuestionIndex < total - 1) {
+        currentQuestionIndex++;
+        renderCurrentQuestion();
+      } else {
+        showResultsScreen();
+      }
+    }
+
+    /**
+     * Previous question
+     */
+    function prevQuestion() {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderCurrentQuestion();
+      }
+    }
+
+    /**
+     * Show Results Screen
+     */
+    function showResultsScreen() {
+      document.getElementById('quiz-active-card').classList.add('hidden');
+      document.getElementById('quiz-result-card').classList.remove('hidden');
+
+      const total = sessionQuestions.length;
+      const score = currentSessionScore;
+      const accuracy = Math.round((score / total) * 100);
+
+      document.getElementById('result-score-ratio').textContent = `${score} / ${total}`;
+      document.getElementById('result-score-accuracy').textContent = `Accuracy: ${accuracy}%`;
+
+      const banner = document.getElementById('result-tier-banner');
+
+      // Interpretation Tiers according to requirements
+      if (accuracy >= 90) {
+        banner.className = "max-w-md mx-auto p-4 rounded-2xl border text-sm font-bold flex items-center justify-center gap-2 bg-emerald-50 border-emerald-300 text-emerald-800";
+        banner.innerHTML = `<span>🌟</span> <span>90–100% → Excellent Preparation</span>`;
+      } else if (accuracy >= 75) {
+        banner.className = "max-w-md mx-auto p-4 rounded-2xl border text-sm font-bold flex items-center justify-center gap-2 bg-sky-50 border-sky-300 text-sky-800";
+        banner.innerHTML = `<span>⚡</span> <span>75–89% → Strong Preparation</span>`;
+      } else if (accuracy >= 50) {
+        banner.className = "max-w-md mx-auto p-4 rounded-2xl border text-sm font-bold flex items-center justify-center gap-2 bg-amber-50 border-amber-300 text-amber-800";
+        banner.innerHTML = `<span>🎯</span> <span>50–74% → Needs More Practice</span>`;
+      } else {
+        banner.className = "max-w-md mx-auto p-4 rounded-2xl border text-sm font-bold flex items-center justify-center gap-2 bg-rose-50 border-rose-300 text-rose-800";
+        banner.innerHTML = `<span>📚</span> <span>Below 50% → Practice More</span>`;
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /**
+     * Keyboard Shortcut Support
+     */
+    window.addEventListener('keydown', (e) => {
+      // Only active when quiz is visible and not on results
+      if (currentActiveTab !== 'quiz') return;
+      const activeCard = document.getElementById('quiz-active-card');
+      if (activeCard.classList.contains('hidden')) return;
+
+      const q = sessionQuestions[currentQuestionIndex];
+      if (!q) return;
+
+      if (e.key === 'ArrowRight') {
+        nextQuestion();
+      } else if (e.key === 'ArrowLeft') {
+        prevQuestion();
+      } else if (['1', '2', '3', '4', 'a', 'b', 'c', 'd', 'A', 'B', 'C', 'D'].includes(e.key)) {
+        if (userSelections[currentQuestionIndex] !== undefined) return;
+        let optIndex = -1;
+        if (e.key === '1' || e.key.toUpperCase() === 'A') optIndex = 0;
+        if (e.key === '2' || e.key.toUpperCase() === 'B') optIndex = 1;
+        if (e.key === '3' || e.key.toUpperCase() === 'C') optIndex = 2;
+        if (e.key === '4' || e.key.toUpperCase() === 'D') optIndex = 3;
+
+        if (optIndex >= 0 && optIndex < q.options.length) {
+          selectOption(q.options[optIndex]);
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
